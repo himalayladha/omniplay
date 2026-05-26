@@ -25,6 +25,11 @@ export default function RootLayout({ children }) {
           :root {
             --theme-color: #1583f9;
           }
+          html, body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+          }
           body {
             background-image: url('/static/img/bg.png');
             background-attachment: fixed;
@@ -39,17 +44,19 @@ export default function RootLayout({ children }) {
           }
         `}</style>
       </head>
-      <body className="min-h-full flex flex-col font-sans antialiased text-[#002b50]">
+      <body className="min-h-full w-full flex flex-col font-sans antialiased text-[#002b50]">
         <AppWrapper>
-          <Navbar />
-          <SearchDrawer />
-          <MenuDrawer />
-          
-          <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 md:px-8 py-6">
-            {children}
-          </main>
+          <div className="flex-1 w-full flex flex-col items-center">
+            <Navbar />
+            <SearchDrawer />
+            <MenuDrawer />
+            
+            <main className="flex-1 w-full max-w-[1200px] px-4 md:px-8 py-6">
+              {children}
+            </main>
 
-          <Footer />
+            <Footer />
+          </div>
         </AppWrapper>
       </body>
     </html>

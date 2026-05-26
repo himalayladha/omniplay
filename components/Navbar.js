@@ -11,7 +11,7 @@ export default function Navbar() {
     : '/static/img/logo/logo.png';
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-20 py-2.5 px-4 md:px-8">
+    <header className="w-full bg-white shadow-md sticky top-0 z-20 py-2.5 px-4 md:px-8">
       <div className="max-w-[1200px] mx-auto flex justify-between items-center">
         <Link href="/" aria-label={`Logo of ${siteConfig.site_name}`} className="flex items-center">
           <img 
