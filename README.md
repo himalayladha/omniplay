@@ -52,10 +52,11 @@ Before running the application, you need to populate your PostgreSQL database wi
 
 ### 2. Local Environment Setup
 
-1. Inside the `omniplay-nextjs` directory, create a `.env.local` file (one has been pre-created as a template):
+1. Inside the `omniplay-nextjs` directory, create a `.env.local` file:
    ```env
    NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-project.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key-here # Required for secure Auth Admin actions
    ```
 2. Replace the values with your actual project credentials (found under **Project Settings -> API** in the Supabase dashboard).
 
@@ -89,7 +90,22 @@ npm run dev
 4. Expand **Environment Variables** and add the keys:
    * `NEXT_PUBLIC_SUPABASE_URL`
    * `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   * `SUPABASE_SERVICE_ROLE_KEY`
 5. Click **Deploy**. Vercel will build the production application bundle, run static optimization, and deploy your site on a secure edge domain.
+
+---
+
+## ⚡ Overhauled Admin Panel Feature Suite (`/admin`)
+
+The Admin Panel has been expanded into a complete glassmorphic control dashboard, including:
+* **Visual Stats & SVG Analytics**: Lightweight inline SVG analytics bar charts mapping category distribution and top-played games without bringing in heavy external graphing libraries.
+* **Monetization Ads Manager (`zon_ads`)**: Edit ad codes and toggle slot status (e.g. `700x100`, `300x250`) instantly.
+* **Manage Blog CRUD (`zon_blog`)**: Create, update, write, and delete articles with thumbnail covers and raw HTML descriptions.
+* **Comments Moderator (`zon_comments`)**: Parallel client-side resolution mapping `user_id` to usernames and `game_id` to game titles, with options to delete reviews.
+* **Categories customizer (`zon_category`)**: Edit names and URL slug handlers.
+* **Maintenance & Auto Link Checker Crawler**: A batched client-side web crawler auditing active database games. It catches connection, CSP, or X-Frame-Options blocks in real-time, takes them offline, and creates a bug report explaining the reason.
+* **Spotlight Pickers**: Easily set or clear the hero landing banner game.
+* **GameMonetize Auto-Filler**: Paste JSON, play links, or copy-pasted page text inside game modals to auto-fill title, URL, descriptions, instructions, categories, and construct image thumbnails.
 
 ---
 
@@ -97,13 +113,14 @@ npm run dev
 
 * **[app/layout.js](file:///d:/HIMALAY/1000-html-game-php-by-digirg/omniplay-nextjs/app/layout.js)**: Base HTML structure, Google Fonts integration (Outfit & Roboto), and AppContext wrapping.
 * **[app/page.js](file:///d:/HIMALAY/1000-html-game-php-by-digirg/omniplay-nextjs/app/page.js)**: Main homepage rendering featured games, search integration, categories, and footer.
-* **[app/g/[gameName]/page.js](file:///d:/HIMALAY/1000-html-game-php-by-digirg/omniplay-nextjs/app/g/%5BgameName%5D/page.js)**: Game playing view utilizing the `GamePlay` component, showing views count, user ratings, and dynamic recommendations.
+* **[app/g/[gameName]/page.js](file:///d:/HIMALAY/1000-html-game-php-by-digirg/omniplay-nextjs/app/g/%5BgameName%5D/page.js)**: Game playing view utilizing the `GamePlay` component, showing views count, rating likes, comments, and recommendations.
 * **[app/[categoryName]/page.js](file:///d:/HIMALAY/1000-html-game-php-by-digirg/omniplay-nextjs/app/%5BcategoryName%5D/page.js)**: Lists games filtered by their corresponding category name.
+* **[app/admin/page.js](file:///d:/HIMALAY/1000-html-game-php-by-digirg/omniplay-nextjs/app/admin/page.js)**: Complete admin panel (Games CRUD, Fetch feeder, Site Settings, User roles, Ad manager, Blogs, Comments, Categories, Link Checker, and SVG charts).
 * **[components/](file:///d:/HIMALAY/1000-html-game-php-by-digirg/omniplay-nextjs/components)**:
   * `Navbar.js` & `Footer.js`: Site headers and footer links synced directly from the database.
   * `SearchDrawer.js` & `MenuDrawer.js`: Persistent slide-out panels managing searches and navigation options.
-  * `GamePlay.js`: Game screen interface managing fullscreen requests, bug reporting, and user like/dislike counts.
-* **[lib/supabase.js](file:///d:/HIMALAY/1000-html-game-php-by-digirg/omniplay-nextjs/lib/supabase.js)**: Supabase client initializer with placeholder fallback to prevent build breaks during static pre-rendering on Vercel.
+  * `GamePlay.js`: Game screen interface managing fullscreen requests, embed auditing, rating likes, and comments.
+* **[lib/supabase.js](file:///d:/HIMALAY/1000-html-game-php-by-digirg/omniplay-nextjs/lib/supabase.js)**: Supabase client initializer with placeholder fallback.
 
 ---
 
@@ -111,6 +128,10 @@ npm run dev
 
 The platform handles interactions via Next.js Serverless routes:
 1. **`/api/search`**: Query-based search returning title/tag matching games.
-2. **`/api/like`**: Increments/decrements game like and dislike values using IP addresses to prevent rating abuse.
+2. **`/api/like`**: Increments/decrements game like and dislike values using IP hashes.
 3. **`/api/views`**: Increments game play counter when a user loads a game.
 4. **`/api/report`**: Inserts bug reports into the database table for admin review.
+5. **`/api/check-game-embed`**: Serverless auditor retrieving headers and body elements of game play URLs to detect CSP, sameorigin, or link blockages.
+6. **`/api/admin/create-user`**: Auth Admin endpoint using the Service Role Key to register new users or admins.
+7. **`/api/admin/set-role`**: Auth Admin endpoint promoting or demoting users between User and Admin roles.
+8. **`/api/admin/fetch-games`**: FEEDS game importer fetching listings from the GameMonetize API.
