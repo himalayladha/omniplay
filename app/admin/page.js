@@ -494,7 +494,16 @@ export default function AdminDashboard() {
   const formatGameUrl = (url, gamepixSid) => {
     if (!url) return '';
     let trimmed = url.trim();
-    // Matches: gamepix.com/play/game-slug
+    
+    // 1. If it's an iframe snippet, extract the src URL
+    if (trimmed.includes('<iframe') && trimmed.includes('src=')) {
+      const srcMatch = trimmed.match(/src=["'](https?:\/\/[^"']+)["']/i);
+      if (srcMatch && srcMatch[1]) {
+        trimmed = srcMatch[1];
+      }
+    }
+    
+    // 2. Format GamePix play links
     const gamepixRegex = /^(https?:\/\/)?(www\.)?gamepix\.com\/play\/([a-zA-Z0-9_-]+)/i;
     const match = trimmed.match(gamepixRegex);
     if (match && match[3]) {
