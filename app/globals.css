@@ -1,26 +1,138 @@
 @import "tailwindcss";
 
+/* --------------------------------------------------------
+   1. Design System Tokens & Base Styles
+   -------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --theme-color: #1583f9;
+  --glow-shadow: 0 0 20px rgba(21, 131, 249, 0.25);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+::-webkit-scrollbar-track {
+  background: #070a13;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+  border: 2px solid #070a13;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-color);
+}
+
+/* Global body resets and futuristic dark theme background */
+body {
+  background: radial-gradient(circle at 50% 0%, #17123a 0%, #0b0d19 50%, #02040a 100%) fixed;
+  color: #e2e8f0;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+/* --------------------------------------------------------
+   2. Custom Glassmorphism & Glow Effects
+   -------------------------------------------------------- */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel-dark {
+  background: rgba(8, 10, 20, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.glass-card {
+  background: rgba(20, 24, 46, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(25, 31, 58, 0.6);
+  border-color: var(--theme-color);
+  box-shadow: 0 0 25px rgba(21, 131, 249, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Micro-animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(21, 131, 249, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(21, 131, 249, 0.4);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.active-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+/* Gradient Text helper */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, var(--theme-color) 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --------------------------------------------------------
+   3. Modern Form Styling (Glass Theme)
+   -------------------------------------------------------- */
+.glass-input {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  border-color: var(--theme-color);
+  box-shadow: 0 0 15px rgba(21, 131, 249, 0.2);
+  background: rgba(15, 23, 42, 0.7);
+}
+
+/* --------------------------------------------------------
+   4. Slide-in Keyframe Animations for Panels
+   -------------------------------------------------------- */
+.animate-slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

@@ -37,38 +37,38 @@ export default function Footer() {
     fetchPages();
   }, []);
 
+  const currentYear = new Date().getFullYear();
+
   const logoUrl = siteConfig.site_logo_light 
     ? `/static/img/logo/${siteConfig.site_logo_light}`
     : '/static/img/logo/logo.png';
 
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="p-6 mt-20 bg-white border-t border-gray-100 w-full" id="site-footer">
-      <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+    <footer className="p-8 mt-24 glass-panel border-t border-white/5 w-full" id="site-footer">
+      <div className="max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex items-center gap-4">
           <img 
             src={logoUrl} 
             alt={`${siteConfig.site_name} logo`} 
-            className="h-8 w-auto object-contain"
+            className="h-7 w-auto object-contain brightness-100"
             onError={(e) => { e.target.src = '/static/img/logo/logo.png'; }}
           />
-          <h3 className="text-lg font-bold text-[#002b50]">Let the world play</h3>
+          <h3 className="text-sm font-semibold text-slate-400">Let the world play</h3>
         </div>
         
-        <div className="flex flex-wrap gap-4 justify-center items-center">
+        <div className="flex flex-wrap gap-6 justify-center items-center">
           {pages.map((page) => (
             <Link 
               key={page.id}
               href={`/c/${makeSlug(page.title)}`}
-              className="underline capitalize text-sm text-gray-600 hover:text-gray-900 transition-colors"
+              className="capitalize text-xs font-bold text-slate-400 hover:text-white transition-colors"
             >
               {page.title}
             </Link>
           ))}
         </div>
       </div>
-      <div className="max-w-[1200px] mx-auto text-center mt-6 text-xs text-gray-400">
+      <div className="max-w-[1280px] mx-auto text-center mt-8 text-[11px] text-slate-500 font-medium border-t border-white/5 pt-6">
         Copyright © {currentYear} {siteConfig.site_name}. All rights reserved.
       </div>
     </footer>

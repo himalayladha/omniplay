@@ -43,13 +43,13 @@ export default async function CustomPage({ params }) {
   }
 
   return (
-    <div className="bg-white p-6 md:p-8 rounded-3xl border border-gray-100 shadow-sm max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold text-[#002b50] capitalize mb-6 pb-4 border-b border-gray-100">
+    <div className="glass-panel p-6 md:p-8 rounded-3xl border border-white/5 shadow-2xl max-w-3xl mx-auto">
+      <h1 className="text-2xl font-black text-white capitalize mb-6 pb-4 border-b border-white/5">
         {page.title}
       </h1>
       
       <div 
-        className="html-content text-sm text-gray-600 leading-relaxed space-y-4"
+        className="html-content text-sm text-slate-300 leading-relaxed space-y-4 font-medium"
         dangerouslySetInnerHTML={{ __html: page.content }}
       />
     </div>

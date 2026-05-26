@@ -10,21 +10,26 @@ export default function GameCard({ game }) {
 
   return (
     <div 
-      className={`m-game-card ${cardSizeClass} ${featuredClass} cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-md`}
+      className="group relative cursor-pointer rounded-2xl overflow-hidden bg-slate-950/30 border border-white/5 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-1 active:scale-98"
       data-card-size={game.game_card_size === 'md' ? 'md' : ''}
       data-game-f={game.is_featured === 1 ? 'Yes' : 'No'}
     >
-      <Link href={`/g/${makeSlug(game.game_name)}`} className="m-game-link block w-full h-full relative">
-        <picture 
-          style={{ backgroundImage: `url('${imageUrl}')` }} 
-          className="m-game-thumbnail block w-full h-full bg-cover bg-center bg-no-repeat relative aspect-square"
-        >
-          <div className="m-game-details absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-3 opacity-0 hover:opacity-100 transition-opacity duration-300">
-            <p className="text-white text-xs font-bold capitalize line-clamp-2">
+      <Link href={`/g/${makeSlug(game.game_name)}`} className="block w-full h-full relative">
+        <div className="relative aspect-square overflow-hidden w-full h-full">
+          <img 
+            src={imageUrl} 
+            alt={game.game_name}
+            loading="lazy"
+            className="w-full h-full object-cover bg-slate-900 group-hover:scale-108 transition-transform duration-500 ease-out"
+            onError={(e) => { e.target.src = '/static/img/user_pic.png'; }}
+          />
+          {/* Glass-style bottom title overlay appearing on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+            <p className="text-white text-xs font-bold leading-tight capitalize line-clamp-2 w-full">
               {game.game_name}
             </p>
           </div>
-        </picture>
+        </div>
       </Link>
     </div>
   );
