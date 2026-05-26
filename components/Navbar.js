@@ -6,11 +6,13 @@ import { useApp } from '@/lib/AppContext';
 export default function Navbar() {
   const { setSearchOpen, setMenuOpen, siteConfig } = useApp();
 
+  const defaultLogo = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgTxtsnKMoPYRbbE1HF1J9nsC2U6vXB_xApojB87mLZUy_IqcgGv_w37LMNAjmOewzoJtMeX1w_UQV6evcMzeTUgeA9QDa9EeSq1NAZxsaAqKGT4UOqo1QC20Eiw4pz1OqAXYGpEGsVk3vRP96aPSYguyHRniK1bXzdDPQ4fI7jfbhSBur6LRD3XYk0QKSb/w640-h182/0c96497d-5797-4d92-9bec-194851cc895b%20(1).png';
+
   const logoUrl = siteConfig.site_logo_light 
     ? (siteConfig.site_logo_light.startsWith('http') || siteConfig.site_logo_light.startsWith('/') 
         ? siteConfig.site_logo_light 
         : `/static/img/logo/${siteConfig.site_logo_light}`)
-    : '/static/img/logo/logo.png';
+    : defaultLogo;
 
   return (
     <header className="w-full glass-panel sticky top-0 z-30 py-3.5 px-4 md:px-8 border-b border-white/5">
@@ -20,7 +22,7 @@ export default function Navbar() {
             src={logoUrl} 
             alt={`${siteConfig.site_name} logo`} 
             className="h-9 w-auto object-contain brightness-100 group-hover:brightness-110 transition-all"
-            onError={(e) => { e.target.src = '/static/img/logo/logo.png'; }}
+            onError={(e) => { e.target.src = defaultLogo; }}
           />
         </Link>
         
