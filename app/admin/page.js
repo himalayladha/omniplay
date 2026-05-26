@@ -292,7 +292,11 @@ export default function AdminDashboard() {
         site_name: config.site_name, site_title: config.site_title,
         site_desc: config.site_desc, site_keywords: config.site_keywords,
         site_color: config.site_color, profile_tagline: config.profile_tagline,
-        gamepix_sid: config.gamepix_sid,
+        site_logo_light: config.site_logo_light,
+        site_logo_dark: config.site_logo_dark,
+        site_logo_sm: config.site_logo_sm,
+        site_favicon: config.site_favicon,
+        footer_content: config.footer_content,
       }).eq('id', config.id || 1);
       if (error) throw error;
       setConfigMsg('success');
@@ -1594,6 +1598,28 @@ export default function AdminDashboard() {
                     <input type="text" value={config.profile_tagline} onChange={e => setConfig({ ...config, profile_tagline: e.target.value })} className="glass-input p-3 rounded-xl text-sm" />
                   </FormField>
                 </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField label="Site Logo Light URL/Filename">
+                    <input type="text" value={config.site_logo_light || ''} onChange={e => setConfig({ ...config, site_logo_light: e.target.value })} placeholder="logo.png" className="glass-input p-3 rounded-xl text-sm" />
+                  </FormField>
+                  <FormField label="Site Logo Dark URL/Filename">
+                    <input type="text" value={config.site_logo_dark || ''} onChange={e => setConfig({ ...config, site_logo_dark: e.target.value })} placeholder="logo-white.png" className="glass-input p-3 rounded-xl text-sm" />
+                  </FormField>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField label="Small Icon Logo URL/Filename">
+                    <input type="text" value={config.site_logo_sm || ''} onChange={e => setConfig({ ...config, site_logo_sm: e.target.value })} placeholder="logo-sm.png" className="glass-input p-3 rounded-xl text-sm" />
+                  </FormField>
+                  <FormField label="Favicon URL/Filename">
+                    <input type="text" value={config.site_favicon || ''} onChange={e => setConfig({ ...config, site_favicon: e.target.value })} placeholder="favicon.png" className="glass-input p-3 rounded-xl text-sm" />
+                  </FormField>
+                </div>
+
+                <FormField label="Footer HTML Content / Description">
+                  <textarea value={config.footer_content || ''} onChange={e => setConfig({ ...config, footer_content: e.target.value })} rows={4} className="glass-input p-3 rounded-xl text-sm resize-none" />
+                </FormField>
 
                 <FormField label="SEO Page Title">
                   <input type="text" value={config.site_title} onChange={e => setConfig({ ...config, site_title: e.target.value })} required className="glass-input p-3 rounded-xl text-sm" />

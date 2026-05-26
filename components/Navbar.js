@@ -7,7 +7,9 @@ export default function Navbar() {
   const { setSearchOpen, setMenuOpen, siteConfig } = useApp();
 
   const logoUrl = siteConfig.site_logo_light 
-    ? `/static/img/logo/${siteConfig.site_logo_light}`
+    ? (siteConfig.site_logo_light.startsWith('http') || siteConfig.site_logo_light.startsWith('/') 
+        ? siteConfig.site_logo_light 
+        : `/static/img/logo/${siteConfig.site_logo_light}`)
     : '/static/img/logo/logo.png';
 
   return (

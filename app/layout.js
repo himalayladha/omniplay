@@ -1,5 +1,8 @@
+import { supabase } from '@/lib/supabase';
 import SiteShell from '@/components/SiteShell';
 import "./globals.css";
+
+export const revalidate = 60;
 
 export const metadata = {
   title: "OmniPlay - Play Free Online HTML5 Games",
@@ -8,11 +11,23 @@ export const metadata = {
   robots: "index, follow",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  let faviconUrl = '/static/img/logo/favicon.png';
+  try {
+    const { data: config } = await supabase.from('zon_config').select('site_favicon').single();
+    if (config?.site_favicon) {
+      faviconUrl = config.site_favicon.startsWith('http') || config.site_favicon.startsWith('/')
+        ? config.site_favicon
+        : `/static/img/logo/${config.site_favicon}`;
+    }
+  } catch (err) {
+    console.error('Error fetching favicon:', err);
+  }
+
   return (
     <html lang="en" className="h-full">
       <head>
-        <link rel="shortcut icon" href="/static/img/logo/favicon.png" type="image/x-icon" />
+        <link rel="shortcut icon" href={faviconUrl} type="image/x-icon" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
         <link
