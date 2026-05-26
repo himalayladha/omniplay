@@ -33,14 +33,11 @@ export default function InstallPage() {
   useEffect(() => {
     async function checkInstallation() {
       try {
-        // Check if any admin already exists
-        const { data, error } = await supabase
-          .from('zon_users')
-          .select('id')
-          .eq('is_admin', 1)
-          .limit(1);
+        // Use server-side API to check install status (bypasses schema cache issues)
+        const res = await fetch('/api/install');
+        const result = await res.json();
 
-        if (!error && data && data.length > 0) {
+        if (result.installed) {
           setAlreadyInstalled(true);
         }
       } catch (err) {
@@ -66,40 +63,22 @@ export default function InstallPage() {
     setLoading(true);
 
     try {
-      // 1. Check username uniqueness
-      const { data: existingUser } = await supabase
-        .from('zon_users')
-        .select('id')
-        .eq('username', username.trim().toLowerCase())
-        .maybeSingle();
-
-      if (existingUser) {
-        throw new Error('Username already taken. Please choose another.');
-      }
-
-      // 2. Create Supabase Auth account
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: email.trim(),
-        password: password,
+      // Use server-side API to create admin (uses service_role key, bypasses RLS)
+      const res = await fetch('/api/install', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          username: username.trim().toLowerCase(),
+          email: email.trim(),
+          password: password,
+        }),
       });
 
-      if (signUpError) throw signUpError;
+      const result = await res.json();
 
-      // 3. Insert user record with is_admin = 1
-      if (data?.user) {
-        const { error: insertError } = await supabase
-          .from('zon_users')
-          .insert({
-            name: name.trim(),
-            email: email.trim().toLowerCase(),
-            username: username.trim().toLowerCase(),
-            password: '',
-            user_pic: 'user-pic.png',
-            status: 1,
-            is_admin: 1,
-          });
-
-        if (insertError) throw insertError;
+      if (!res.ok) {
+        throw new Error(result.error || 'Failed to create admin account.');
       }
 
       setAdminCreated(true);
