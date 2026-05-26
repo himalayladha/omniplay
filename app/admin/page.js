@@ -18,6 +18,7 @@ const Icon = ({ d, size = 18, color = 'currentColor', ...props }) => (
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z' },
   { id: 'games',     label: 'Manage Games', icon: 'M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z' },
+  { id: 'fetch',     label: 'Fetch Games',  icon: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3' },
   { id: 'config',    label: 'Site Settings', icon: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z' },
   { id: 'users',     label: 'User Management', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75' },
   { id: 'reports',   label: 'Bug Reports', icon: 'M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01' },
@@ -148,6 +149,7 @@ export default function AdminDashboard() {
   const [gameCardSize, setGameCardSize] = useState('normal');
   const [gameIsFeatured, setGameIsFeatured] = useState(0);
   const [gameStatus, setGameStatus] = useState(1);
+  const [gmImportText, setGmImportText] = useState('');
   
   const [gameSaveLoading, setGameSaveLoading] = useState(false);
   const [gameError, setGameError] = useState('');
@@ -155,6 +157,17 @@ export default function AdminDashboard() {
   
   // Category list state for dropdowns
   const [categoriesList, setCategoriesList] = useState([]);
+
+  // Fetch Games tab states
+  const [fetchPlatform, setFetchPlatform] = useState('gamemonetize');
+  const [fetchCategory, setFetchCategory] = useState('All');
+  const [fetchType, setFetchType] = useState('html5');
+  const [fetchPopularity, setFetchPopularity] = useState('newest');
+  const [fetchAmount, setFetchAmount] = useState(20);
+  const [fetchPage, setFetchPage] = useState(1);
+  const [fetchLoadingState, setFetchLoadingState] = useState(false);
+  const [fetchMsg, setFetchMsg] = useState('');
+  const [fetchMsgType, setFetchMsgType] = useState('');
 
 
 
@@ -491,32 +504,160 @@ export default function AdminDashboard() {
     }
   };
 
-  const formatGameUrl = (url, gamepixSid) => {
+  const formatGameUrl = (url) => {
     if (!url) return '';
     let trimmed = url.trim();
     
-    // 1. If it's an iframe snippet, extract the src URL
+    // If it's an iframe snippet, extract the src URL
     if (trimmed.includes('<iframe') && trimmed.includes('src=')) {
       const srcMatch = trimmed.match(/src=["'](https?:\/\/[^"']+)["']/i);
       if (srcMatch && srcMatch[1]) {
         trimmed = srcMatch[1];
       }
     }
-    
-    // 2. Format GamePix play links
-    const gamepixRegex = /^(https?:\/\/)?(www\.)?gamepix\.com\/play\/([a-zA-Z0-9_-]+)/i;
-    const match = trimmed.match(gamepixRegex);
-    if (match && match[3]) {
-      const slug = match[3];
-      const sid = gamepixSid || '10605';
-      return `https://play.gamepix.com/${slug}/embed?sid=${sid}`;
-    }
     return trimmed;
+  };
+
+  const parseGameMonetize = (text) => {
+    const input = text.trim();
+    let result = {
+      name: '',
+      url: '',
+      thumb: '',
+      description: '',
+      category: '',
+    };
+
+    // 1. Check if it's JSON
+    if (input.startsWith('{') && input.endsWith('}')) {
+      try {
+        const data = JSON.parse(input);
+        result.name = data.title || data.name || '';
+        result.url = data.url || '';
+        result.thumb = data.thumb || data.image_url || data.game_image_url || '';
+        result.description = data.description || '';
+        if (data.instructions) {
+          result.description += `\n\nInstructions:\n${data.instructions}`;
+        }
+        result.category = data.category || '';
+        
+        // Auto construct thumbnail if empty but url exists
+        if (!result.thumb && result.url) {
+          const hashMatch = result.url.match(/html5\.gamemonetize\.(co|com)\/([a-zA-Z0-9]+)/i);
+          if (hashMatch && hashMatch[2]) {
+            result.thumb = `https://img.gamemonetize.com/${hashMatch[2]}/512x384.jpg`;
+          }
+        }
+        return result;
+      } catch (e) {
+        // Not valid JSON
+      }
+    }
+
+    // 2. Check if it's just a Direct Link / Preloader Link
+    const directLinkRegex = /(https?:\/\/html5\.gamemonetize\.(co|com)\/([a-zA-Z0-9]+)\/?)/i;
+    const directLinkMatch = input.match(directLinkRegex);
+    if (directLinkMatch && input.length < 150) {
+      result.url = directLinkMatch[1];
+      result.thumb = `https://img.gamemonetize.com/${directLinkMatch[3]}/512x384.jpg`;
+      result.name = 'GameMonetize Game';
+      return result;
+    }
+
+    // 3. Parse copied text
+    if (directLinkMatch) {
+      result.url = directLinkMatch[1];
+      result.thumb = `https://img.gamemonetize.com/${directLinkMatch[3]}/512x384.jpg`;
+    }
+
+    // Extract Title (first line of the copied text)
+    const lines = input.split('\n').map(l => l.trim()).filter(Boolean);
+    if (lines.length > 0) {
+      let titleIdx = 0;
+      while (titleIdx < lines.length && (
+        lines[titleIdx].toLowerCase() === 'gamemonetize' || 
+        lines[titleIdx].toLowerCase() === 'home' ||
+        lines[titleIdx].toLowerCase() === 'developers' ||
+        lines[titleIdx].toLowerCase() === 'publishers' ||
+        lines[titleIdx].toLowerCase() === 'forum' ||
+        lines[titleIdx].toLowerCase() === 'games' ||
+        lines[titleIdx].toLowerCase() === 'free cms' ||
+        lines[titleIdx].toLowerCase() === 'sdk' ||
+        lines[titleIdx].toLowerCase() === 'faq' ||
+        lines[titleIdx].toLowerCase() === 'login' ||
+        lines[titleIdx].toLowerCase() === 'sign up'
+      )) {
+        titleIdx++;
+      }
+      if (titleIdx < lines.length) {
+        result.name = lines[titleIdx];
+      }
+    }
+
+    // Extract Category
+    const categoryMatch = input.match(/Category\s*\n+([^\n]+)/i);
+    if (categoryMatch) {
+      result.category = categoryMatch[1].trim();
+    }
+
+    // Extract Description
+    const descMatch = input.match(/Description\s*\n+([\s\S]+?)(?=\nInstructions|\nTags|\nSize|\nPublished|$)/i);
+    if (descMatch) {
+      result.description = descMatch[1].trim();
+    }
+
+    // Extract Instructions
+    const instMatch = input.match(/Instructions\s*\n+([\s\S]+?)(?=\nSize|\nPublished|$)/i);
+    if (instMatch) {
+      const inst = instMatch[1].trim();
+      if (result.description) {
+        result.description += `\n\nInstructions:\n${inst}`;
+      } else {
+        result.description = `Instructions:\n${inst}`;
+      }
+    }
+
+    // Look for any thumbnail image url in the text if we didn't match the direct link
+    const imgUrlMatch = input.match(/(https?:\/\/img\.gamemonetize\.com\/[a-zA-Z0-9]+\/[^\s"']+)/i);
+    if (imgUrlMatch) {
+      result.thumb = imgUrlMatch[1];
+    }
+
+    return result;
+  };
+
+  const handleImportGameMonetize = () => {
+    if (!gmImportText.trim()) return;
+    const parsed = parseGameMonetize(gmImportText);
+    
+    if (parsed.name && parsed.name !== 'GameMonetize Game') setGameName(parsed.name);
+    if (parsed.url) setGameUrl(parsed.url);
+    if (parsed.thumb) setGameImage(parsed.thumb);
+    if (parsed.description) setGameDesc(parsed.description);
+
+    if (parsed.category) {
+      const categoryLower = parsed.category.toLowerCase().trim();
+      const matchedCat = categoriesList.find(cat => 
+        categoryLower.includes(cat.name.toLowerCase()) || 
+        cat.name.toLowerCase().includes(categoryLower)
+      );
+      if (matchedCat) {
+        setGameCategory(matchedCat.name.toLowerCase());
+        setIsCustomCategory(false);
+      } else {
+        setGameCategory(parsed.category.toLowerCase());
+        setIsCustomCategory(true);
+      }
+    }
+    
+    setGameSuccess('GameMonetize details auto-filled successfully! Please review the form before saving.');
+    setTimeout(() => setGameSuccess(''), 4000);
   };
 
   const handleOpenGameModal = (game = null) => {
     setGameError('');
     setGameSuccess('');
+    setGmImportText('');
     if (game) {
       setEditGame(game);
       setGameName(game.game_name || '');
@@ -550,7 +691,7 @@ export default function AdminDashboard() {
     setGameError('');
     setGameSuccess('');
     try {
-      const formattedUrl = formatGameUrl(gameUrl, config.gamepix_sid);
+      const formattedUrl = formatGameUrl(gameUrl);
       
       const gameData = {
         game_name: gameName.trim(),
@@ -597,6 +738,42 @@ export default function AdminDashboard() {
       setGameError('Error saving game: ' + err.message);
     } finally {
       setGameSaveLoading(false);
+    }
+  };
+
+  const handleFetchGames = async (e) => {
+    e.preventDefault();
+    setFetchLoadingState(true);
+    setFetchMsg('');
+    setFetchMsgType('');
+    try {
+      const res = await fetch('/api/admin/fetch-games', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({
+          platform: fetchPlatform,
+          category: fetchCategory,
+          type: fetchType,
+          popularity: fetchPopularity,
+          amount: parseInt(fetchAmount, 10),
+          page: parseInt(fetchPage, 10),
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to fetch games.');
+
+      setFetchMsgType('success');
+      setFetchMsg(data.message || `Imported games successfully!`);
+      await Promise.all([fetchStats(), fetchGames(gameSearch, gamePage)]);
+    } catch (err) {
+      setFetchMsgType('error');
+      setFetchMsg(err.message || 'Failed to fetch games.');
+    } finally {
+      setFetchLoadingState(false);
     }
   };
 
@@ -973,6 +1150,33 @@ export default function AdminDashboard() {
 
                     {/* Form */}
                     <form onSubmit={handleCreateOrUpdateGame} className="flex flex-col gap-4">
+                      {/* GameMonetize Importer Section */}
+                      <div className="p-4 rounded-2xl bg-blue-500/5 border border-blue-500/10 flex flex-col gap-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs">✨</span>
+                          <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">GameMonetize Auto-Fill</span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 -mt-1 leading-relaxed">
+                          Paste GameMonetize JSON, direct link, or raw details page text below to automatically fill all fields.
+                        </p>
+                        <div className="flex gap-2">
+                          <textarea
+                            value={gmImportText}
+                            onChange={e => setGmImportText(e.target.value)}
+                            placeholder="Paste GameMonetize URL, JSON data, or copied details..."
+                            rows={1}
+                            className="glass-input p-3 rounded-xl text-xs flex-1 resize-none bg-slate-950/40 text-slate-300 font-medium border border-white/5 focus:border-blue-500/30 outline-none"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleImportGameMonetize}
+                            className="bg-blue-500/15 hover:bg-blue-500/25 text-blue-400 border border-blue-500/25 hover:border-blue-500/40 font-bold px-4 py-2.5 rounded-xl text-xs transition-all cursor-pointer whitespace-nowrap"
+                          >
+                            Auto-Fill
+                          </button>
+                        </div>
+                      </div>
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <FormField label="Game Name">
                           <input
@@ -1030,14 +1234,14 @@ export default function AdminDashboard() {
                           value={gameUrl}
                           onChange={e => setGameUrl(e.target.value)}
                           onBlur={e => {
-                            const formatted = formatGameUrl(e.target.value, config?.gamepix_sid);
+                            const formatted = formatGameUrl(e.target.value);
                             setGameUrl(formatted);
                           }}
-                          placeholder="https://play.gamepix.com/slug/embed?sid=10605"
+                          placeholder="https://html5.gamemonetize.co/kqgk4524prmj8pnjdzwvmxso1z6t9jaq/"
                           className="glass-input p-3 rounded-xl text-sm"
                         />
                         <p className="text-[9px] text-slate-500 font-medium">
-                          💡 You can paste a GamePix play link (e.g. <span className="text-slate-400">gamepix.com/play/slug</span>) here. It will auto-format to embed format on blur or save.
+                          💡 Paste the GameMonetize Direct Link or Preloader URL here (e.g. html5.gamemonetize.co/kqgk4524prmj8pnjdzwvmxso1z6t9jaq/).
                         </p>
                       </FormField>
 
@@ -1124,6 +1328,131 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* ─ FETCH GAMES TAB ────────────────────────────────────────────── */}
+          {activeTab === 'fetch' && (
+            <div className="flex flex-col gap-6 max-w-2xl">
+              <SectionTitle sub="Import games instantly via distributor API feeds">Fetch & Import Games</SectionTitle>
+
+              {fetchMsg && (
+                <div className={`p-4 rounded-2xl text-sm font-semibold flex items-center gap-2 ${
+                  fetchMsgType === 'success'
+                    ? 'bg-green-500/10 border border-green-500/25 text-green-400'
+                    : 'bg-red-500/10 border border-red-500/25 text-red-400'
+                }`}>
+                  {fetchMsgType === 'success' ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  )}
+                  {fetchMsg}
+                </div>
+              )}
+
+              <form onSubmit={handleFetchGames} className="glass-panel rounded-2xl border border-white/5 p-5 md:p-6 flex flex-col gap-5">
+                <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-blue-500/5 border border-blue-500/10">
+                  <span className="text-xs">🌐</span>
+                  <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Platform: GameMonetize.com</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField label="Game Type">
+                    <select
+                      value={fetchType}
+                      onChange={e => setFetchType(e.target.value)}
+                      className="glass-input p-3 rounded-xl text-sm bg-[#0a0c14] border border-white/5 text-white"
+                    >
+                      <option value="html5">HTML5 (Desktop & Mobile)</option>
+                      <option value="mobile">Mobile-Optimized HTML5</option>
+                    </select>
+                  </FormField>
+
+                  <FormField label="Popularity Feed">
+                    <select
+                      value={fetchPopularity}
+                      onChange={e => setFetchPopularity(e.target.value)}
+                      className="glass-input p-3 rounded-xl text-sm bg-[#0a0c14] border border-white/5 text-white"
+                    >
+                      <option value="newest">Newest Games</option>
+                      <option value="mostplayed">Most Popular</option>
+                      <option value="hotgames">Hot Games</option>
+                      <option value="bestgames">Best Games</option>
+                      <option value="exclusivegames">Exclusive Games</option>
+                      <option value="editorpicks">Editor Picks</option>
+                    </select>
+                  </FormField>
+                </div>
+
+                <FormField label="Category">
+                  <select
+                    value={fetchCategory}
+                    onChange={e => setFetchCategory(e.target.value)}
+                    className="glass-input p-3 rounded-xl text-sm bg-[#0a0c14] border border-white/5 text-white"
+                  >
+                    <option value="All">All Categories</option>
+                    <option value="arcade">Arcade</option>
+                    <option value="puzzle">Puzzle</option>
+                    <option value="racing">Racing</option>
+                    <option value="shooting">Shooting</option>
+                    <option value="sports">Sports</option>
+                    <option value="action">Action</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="boys">Boys</option>
+                    <option value="girls">Girls</option>
+                    <option value="multiplayer">Multiplayer</option>
+                    <option value="stickman">Stickman</option>
+                    <option value="bejeweled">Bejeweled</option>
+                    <option value="cooking">Cooking</option>
+                    <option value="clicker">Clicker</option>
+                    <option value="hypercasual">Hypercasual</option>
+                  </select>
+                </FormField>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField label="Fetch Limit (Amount)">
+                    <input
+                      type="number"
+                      min={5}
+                      max={100}
+                      value={fetchAmount}
+                      onChange={e => setFetchAmount(Math.max(5, Math.min(100, parseInt(e.target.value, 10) || 5)))}
+                      className="glass-input p-3 rounded-xl text-sm"
+                    />
+                  </FormField>
+
+                  <FormField label="API Feed Page Offset">
+                    <input
+                      type="number"
+                      min={1}
+                      max={50}
+                      value={fetchPage}
+                      onChange={e => setFetchPage(Math.max(1, Math.min(50, parseInt(e.target.value, 10) || 1)))}
+                      className="glass-input p-3 rounded-xl text-sm"
+                    />
+                  </FormField>
+                </div>
+
+                <div className="p-4 rounded-xl bg-blue-500/5 border border-blue-500/10 flex items-start gap-3">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.5" className="mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                  <p className="text-[11px] text-blue-300/80 leading-relaxed">
+                    Imported games will automatically skip duplicate titles already present in your database. Newly imported games are set as <strong>Active</strong> (Publishing Status) and will immediately appear in your frontend feeds.
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={fetchLoadingState}
+                  className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  {fetchLoadingState ? (
+                    <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Fetching & Importing...</>
+                  ) : (
+                    <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="12" y1="15" x2="19" y2="12"/><line x1="12" y1="15" x2="5" y2="12"/></svg>Fetch & Import</>
+                  )}
+                </button>
+              </form>
             </div>
           )}
 
@@ -1285,9 +1614,7 @@ export default function AdminDashboard() {
                   </div>
                 </FormField>
 
-                <FormField label="GamePix Partner SID">
-                  <input type="text" value={config.gamepix_sid || ''} onChange={e => setConfig({ ...config, gamepix_sid: e.target.value })} placeholder="10605" className="glass-input p-3 rounded-xl text-sm" />
-                </FormField>
+
 
                 <button type="submit" disabled={saving} className="mt-2 w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer">
                   {saving ? (
