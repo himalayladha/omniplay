@@ -1,0 +1,28 @@
+<?php global $zon, $site_url; ?>
+<div class="image-slider wow <?php echo $zon['config']['animate_class'] ?> mt-6">
+  <div class="swiper-container two">
+    <div class="swiper-wrapper">
+      <?php foreach (getFeaturedGames() as $fg) {
+        $game = getGamesById($fg['game_id']);
+        if ($game) {
+          ?>
+          <div class="swiper-slide">
+            <div class="slider-image">
+              <a href="<?php echo $site_url . 'game/' . makeSlug($game['game_name']) . '/' . $game['id']; ?>">
+                <img src="<?php echo $game['game_banner_url'] == '' ? $game['game_image_url'] : $game['game_banner_url'] ?>" alt="<?= $game['game_name'] ?>" />
+              </a>
+            </div>
+          </div>
+        <?php }
+      } ?>
+    </div>
+  </div>
+</div>
+
+<?php if (getAd('3,4', 'status') == 0) { ?>
+    <div class="p-2 mt-4 mb-4">
+        <div class="ads wow <?php echo $zon['config']['animate_class'] ?> flex justify-center">
+            <?php echo getAd('3,4', 'code') ?>
+        </div>
+    </div>
+<?php } ?>

@@ -1,0 +1,153 @@
+<?php global $site_url, $zon; ?>
+<div class="zontal-sidebar ">
+  <!-- <div class="overlay"></div> -->
+  <div class="zontal-sidebar-head items-center w-full flex justify-between">
+    <div class="burger-menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="19px" height="19px" fill="none" stroke-width="1.1"
+        viewBox="0 0 24 24" color="#d9d9d9">
+        <path style="stroke: var(--zon-common-text-color);" stroke="#d9d9d9" stroke-width="1.1" stroke-linecap="round"
+          stroke-linejoin="round" d="M3 5h18M3 12h18M3 19h18"></path>
+      </svg>
+    </div>
+    <a class="logo" href="<?php echo $site_url ?>">
+      <img style="display: var(--zon-dark-logo);"
+        src="<?php echo $site_url . 'static/img/logo/' . $zon['config']['site_logo_dark'] ?>" width="140"
+        class="logo" />
+      <img style="display: var(--zon-light-logo);"
+        src="<?php echo $site_url . 'static/img/logo/' . $zon['config']['site_logo_light'] ?>" width="140"
+        class="logo" />
+    </a>
+  </div>
+  <div class="zontal-sidebar-body mt-4">
+    <ul class="list">
+      <li>
+        <a class="capitalize items-center <?php tabActivation('games', 'active-page'); ?> block flex gap-5 py-2.5"
+          href="<?php echo $site_url ?>games">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="19px" height="19px" fill="none" stroke-width="1.1"
+              viewBox="0 0 24 24" color="#000000">
+              <path stroke="#000000" stroke-width="1.1"
+                d="M14 20.4v-5.8a.6.6 0 0 1 .6-.6h5.8a.6.6 0 0 1 .6.6v5.8a.6.6 0 0 1-.6.6h-5.8a.6.6 0 0 1-.6-.6ZM3 20.4v-5.8a.6.6 0 0 1 .6-.6h5.8a.6.6 0 0 1 .6.6v5.8a.6.6 0 0 1-.6.6H3.6a.6.6 0 0 1-.6-.6ZM14 9.4V3.6a.6.6 0 0 1 .6-.6h5.8a.6.6 0 0 1 .6.6v5.8a.6.6 0 0 1-.6.6h-5.8a.6.6 0 0 1-.6-.6ZM3 9.4V3.6a.6.6 0 0 1 .6-.6h5.8a.6.6 0 0 1 .6.6v5.8a.6.6 0 0 1-.6.6H3.6a.6.6 0 0 1-.6-.6Z">
+              </path>
+            </svg></span>
+          <span class="text-sm icon-label">All games</span>
+        </a>
+      </li>
+      <li>
+        <a class="capitalize items-center block <?php tabActivation('new-games', 'active-page'); ?> flex gap-5 py-2.5"
+          href="<?php echo $site_url ?>new-games">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="19px" height="19px" fill="none" stroke-width="1.1"
+              viewBox="0 0 24 24" color="#000000">
+              <path stroke="#000000" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"
+                d="m15.819 13.329-5.324 5.99a2 2 0 0 1-2.99 0l-5.324-5.99a2 2 0 0 1 0-2.658l5.324-5.99a2 2 0 0 1 2.99 0l5.324 5.99a2 2 0 0 1 0 2.658Z">
+              </path>
+              <path stroke="#000000" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"
+                d="m12 6.375 1.505-1.693a2 2 0 0 1 2.99 0l5.324 5.99a2 2 0 0 1 0 2.657l-5.324 5.99a2 2 0 0 1-2.99 0L12 17.624">
+              </path>
+            </svg></span>
+          <span class="text-sm icon-label">newest games</span>
+        </a>
+      </li>
+      <li>
+        <a class="capitalize items-center block <?php tabActivation('popular-games', 'active-page'); ?> flex gap-5 py-2.5"
+          href="<?php echo $site_url ?>popular-games">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="19px" height="19px" fill="none" stroke-width="1.1"
+              viewBox="0 0 24 24" color="#000000">
+              <path stroke="#000000" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"
+                d="M8 18c0 2.415 1.79 3 4 3 3.759 0 5-2.5 2.5-7.5C11 18 10.5 11 11 9c-1.5 3-3 5.818-3 9Z"></path>
+              <path stroke="#000000" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"
+                d="M12 21c5.05 0 8-2.904 8-7.875C20 8.155 12 3 12 3S4 8.154 4 13.125C4 18.095 6.95 21 12 21Z">
+              </path>
+            </svg></span>
+          <span class="text-sm icon-label">most popular</span>
+        </a>
+      </li>
+      <li>
+        <a class="capitalize items-center block flex gap-5 py-2.5" href="<?php echo $site_url ?>autoplay ">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="19px" height="19px" fill="none" stroke-width="1.1"
+              viewBox="0 0 24 24" color="#000000">
+              <path stroke="#000000" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"
+                d="M17.5 17.5c2.5 3.5 6.449.915 5.5-2.5-1.425-5.129-2.2-7.984-2.603-9.492A2.032 2.032 0 0 0 18.438 4H5.562c-.918 0-1.718.625-1.941 1.515C2.78 8.863 2.033 11.802 1.144 15c-.948 3.415 3 6 5.5 2.5M18 8.5l.011.01M16.49 7l.011.01M16.49 10l.011.01M15 8.5l.011.01M7 7v3M5.5 8.5h3">
+              </path>
+              <path stroke="#000000" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"
+                d="M8 16a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM16 16a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
+            </svg></span>
+          <span class="text-sm icon-label">autoplay</span>
+        </a>
+      </li>
+      <li>
+        <a class="capitalize items-center block flex gap-5 <?php tabActivation('blogs', 'active-page'); ?> py-2.5"
+          href="<?php echo $site_url ?>blogs">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="19px" height="19px" fill="none" stroke-width="1.1"
+              viewBox="0 0 24 24" color="#000000">
+              <path stroke="#000000" stroke-width="1.1" stroke-linecap="round"
+                d="M8.5 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2.5"></path>
+              <path stroke="#000000" stroke-width="1.1" stroke-linecap="round"
+                d="M8 6.4V4.5a.5.5 0 0 1 .5-.5c.276 0 .504-.224.552-.496C9.2 2.652 9.774 1 12 1s2.8 1.652 2.948 2.504c.048.272.276.496.552.496a.5.5 0 0 1 .5.5v1.9a.6.6 0 0 1-.6.6H8.6a.6.6 0 0 1-.6-.6Z">
+              </path>
+            </svg></span>
+          <span class="text-sm icon-label">blogs</span>
+        </a>
+      </li>
+    </ul>
+    <div class="uppercase sb-divider mt-3 mb-3 text-[10px]">
+      categories
+    </div>
+    <hr class="border-[var(--zon-muted-color)] mt-4 mb-4">
+    <ul id="zon_categories" class="category-list"></ul>
+    <button id="zon-category-loader"
+      class="py-1.5 capitalize text-sm w-full flex gap-4 rounded-md cate-more-load more-button px-4">
+      <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="none" stroke-width="1.5" viewBox="0 0 24 24" color="#000000"><path stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"></path></svg> more  -->
+    </button>
+    <div class="uppercase sb-divider mt-3 mb-3 text-[10px]">
+      popular games
+    </div>
+    <hr class="border-[var(--zon-muted-color)] mt-4 mb-4">
+    <ul class="game-list">
+      <?php
+      try {
+        if (getGamesByPopular('LIMIT 6')) {
+          foreach (getGamesByPopular('LIMIT 6') as $game) {
+            if ($game) {
+              ?>
+              <li>
+                <a href="<?php echo $site_url . 'game/' . makeSlug($game['game_name']) . '/' . $game['id'] ?>"
+                  class="flex items-center gap-4 mb-4">
+                  <img class="w-7 h-7 rounded-full" src="<?= $game['game_image_url'] ?>" />
+                  <div class="text">
+                    <span class="line-clamp-1 capitalize text-md">
+                      <?= $game['game_name'] ?>
+                    </span>
+                    <p style="color: var(--zon-muted-color)" class="text-xs">
+                      <?= $game['game_played'] ?> Plays
+                    </p>
+                  </div>
+                </a>
+              </li>
+            <?php }
+          }
+        }
+      } catch (Exeception $error) {
+        if ($error) {
+          echo "No popular game found.";
+        }
+      }
+
+      ?>
+    </ul>
+    <a href="<?php echo $site_url ?>popular-games"
+      class="py-1.5 capitalize text-sm flex gap-4 w-full block rounded-md more-button px-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="none" stroke-width="1.0"
+        viewBox="0 0 24 24" color="#000000">
+        <path style="stroke: var(--zon-common-text-color);" stroke="#000000" stroke-width="1.0" stroke-linecap="round"
+          stroke-linejoin="round" d="m6 9 6 6 6-6">
+        </path>
+      </svg> more
+    </a>
+  </div>
+  <div class="zontal-sidebar-footer gap-2 px-4 mt-6 flex flex-wrap ">
+    <?php foreach (getPages() as $page) { ?>
+      <a style="color: var(--zon-muted-color);" class="text-xs capitalize" href="<?php echo $site_url . 'page/' . $page['id'] . '/' . makeSlug($page['title'])  ?>"><?= $page['title'] ?></a>
+    <?php } ?>
+    <span style="color: var(--zon-muted-color);" class="text-xs">Copyright © <?php echo date('Y') ?> <?php echo $zon['config']['site_name'] ?>. All rights reserved.</span>
+  </div>
+</div>

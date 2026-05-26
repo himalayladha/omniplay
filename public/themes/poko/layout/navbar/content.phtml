@@ -1,0 +1,30 @@
+<?php global $site_url, $zon; ?>
+<nav class="navbar flex justify-between items-center p-4 bg-white">
+    <a aria-label="logo" href="<?= $site_url ?>">
+        <img src="<?= $site_url ?>static/img/logo/<?= $zon['config']['site_logo_light'] ?>" alt="<?= $zon['config']['site_name'] ?>" />
+    </a>
+    <div class="flex navbar-shortcut flex-col gap-2">
+        <a aria-label="home"  class="block hover:bg-gray-200 transition duration-300 h-10 w-10 flex justify-center items-center rounded-lg"
+            href="<?= $site_url ?>">
+            <svg width="26px" height="26px" stroke-width="1.1" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg" color="#8c8c8c">
+                <path
+                    d="M9 21H7C4.79086 21 3 19.2091 3 17V10.7076C3 9.30887 3.73061 8.01175 4.92679 7.28679L9.92679 4.25649C11.2011 3.48421 12.7989 3.48421 14.0732 4.25649L19.0732 7.28679C20.2694 8.01175 21 9.30887 21 10.7076V17C21 19.2091 19.2091 21 17 21H15M9 21V17C9 15.3431 10.3431 14 12 14V14C13.6569 14 15 15.3431 15 17V21M9 21H15"
+                    stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                </path>
+            </svg>
+        </a>
+        <button aria-label="search" name="search bar menu button" onclick="document.querySelector('.offcanvas').classList.toggle('active')"
+            class="block hover:bg-gray-200 transition duration-300 h-10 w-10 flex open-menu justify-center items-center rounded-lg">
+            <svg width="26px" height="26px" viewBox="0 0 24 24" stroke-width="1.1" fill="none"
+                xmlns="http://www.w3.org/2000/svg" color="#8c8c8c">
+                <path d="M17 17L21 21" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                </path>
+                <path
+                    d="M3 11C3 15.4183 6.58172 19 11 19C13.213 19 15.2161 18.1015 16.6644 16.6493C18.1077 15.2022 19 13.2053 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11Z"
+                    stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                </path>
+            </svg>
+        </button>
+    </div>
+</nav>

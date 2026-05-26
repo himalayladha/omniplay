@@ -1,0 +1,28 @@
+<?php global $site_url; ?>
+<div class="flex items-center justify-center px-4 h-[80vh]">
+    <form id="sign-form" method="post" class="sign-form w-[400px] ">
+        <div class="input-group mb-4">
+            <label for="" class="mb-2 transition duration-300  block font-medium">Full Name</label>
+            <input required name="name" placeholder="John Doe" type="text"
+                class="hover:border-[var(--zon-theme-color)] focus:outline-[var(--zon-theme-color)] px-4 w-full py-4 bg-transparent border border-[var(--zon-comment-input-b-color)] " />
+        </div>
+        <div class="input-group mb-4">
+            <label for="" class="mb-2 transition duration-300  block font-medium">Email</label>
+            <input required name="email" placeholder="example@mvnthemes.com" type="email"
+                class="px-4 w-full py-4 hover:border-[var(--zon-theme-color)] focus:outline-[var(--zon-theme-color)]  bg-transparent border border-[var(--zon-comment-input-b-color)] " />
+        </div>
+        <div class="input-group mb-4">
+            <label for="" class="mb-2 transition duration-300  block font-medium">Username</label>
+            <input required name="username" placeholder="johndoe" type="username"
+                class="px-4 w-full py-4 hover:border-[var(--zon-theme-color)] focus:outline-[var(--zon-theme-color)]  bg-transparent border border-[var(--zon-comment-input-b-color)] " />
+        </div>
+        <div class="input-group mb-4">
+            <label for="" class="mb-2 transition duration-300  block font-medium">Password</label>
+            <input required name="password" placeholder="#######" type="password"
+                class="px-4 w-full py-4 hover:border-[var(--zon-theme-color)] focus:outline-[var(--zon-theme-color)]  bg-transparent border border-[var(--zon-comment-input-b-color)] " />
+        </div>
+        <input type="text" name="signup" />
+        <button  type="submit" class="w-full disabled:opacity-70 rounded-lg mt-3 py-3 text-white bg-[var(--zon-theme-color)] px-4">Login</button>
+        <p style="color: var(--zon-muted-color);" class="text-center mt-3 mb-3">You have an acoount? | <a href="<?php echo $site_url ?>login">Login</a> </p>
+    </form>
+</div>

@@ -1,0 +1,22 @@
+<?php
+global $socket;
+$games = getGamesByQuery(htmlspecialchars(mysqli_real_escape_string($socket, $_GET['g'])), 100);
+// print_r($_GET['g']);
+?>
+<div class="zon-container">
+    <h1 class="text-3xl capitalize mb-8 mt-3 block capitalize font-bold page-heading">
+        results from (<?php echo htmlspecialchars(mysqli_real_escape_string($socket, $_GET['g'])) ?>)
+    </h1>
+    <div class="game__grid home__game__grid">
+        <?php foreach ($games as $game) { ?>
+            <div class="game wow <?php echo $zon['config']['animate_class'] ?>">
+                <a href="<?= $site_url . 'game/' . makeSlug($game['game_name']) . '/' . $game['id'] ?>" class="game__thumb">
+                    <img src="<?= $game['game_image_url'] ?>" alt="<?= $game['game_name'] ?>" />
+                </a>
+                <a href="<?= $site_url . 'game/' . makeSlug($game['game_name']) . '/' . $game['id'] ?>" class="game_name">
+                    <?= $game['game_name'] ?>
+                </a>
+            </div>
+        <?php } ?>
+    </div>
+</div>
