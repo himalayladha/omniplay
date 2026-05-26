@@ -18,8 +18,8 @@ export default async function PopularGamesPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#002b50] mb-2">Most Popular Games</h1>
-        <p className="text-sm text-gray-500 font-medium">Play the most liked and played games by our global community.</p>
+        <h1 className="text-2xl font-bold text-white mb-2">Most Popular Games</h1>
+        <p className="text-sm text-slate-400 font-medium">Play the most liked and played games by our global community.</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">

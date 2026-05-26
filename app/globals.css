@@ -136,3 +136,22 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 1;
   }
 }
+
+/* --------------------------------------------------------
+   5. Admin Panel Utilities
+   -------------------------------------------------------- */
+/* Very subtle hover for table rows */
+.hover\:bg-white\/2:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Fade-in animation for page content */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+

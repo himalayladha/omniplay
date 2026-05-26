@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
@@ -100,11 +99,9 @@ export default function LoginPage() {
         </button>
       </form>
 
-      <div className="text-center mt-6 text-xs text-slate-400 font-medium">
-        Don&apos;t have an account?{' '}
-        <Link href="/register" className="text-blue-400 font-bold hover:text-blue-300 hover:underline">
-          Register here
-        </Link>
+      <div className="text-center mt-6 text-xs text-slate-500 font-medium">
+        Access is by invitation only.{' '}
+        <span className="text-slate-600">Contact your administrator.</span>
       </div>
     </div>
   );

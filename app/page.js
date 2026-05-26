@@ -1,5 +1,6 @@
 import GameCard from '@/components/GameCard';
 import CategoryCard from '@/components/CategoryCard';
+import ClientImage from '@/components/ClientImage';
 import { supabase } from '@/lib/supabase';
 import { makeSlug } from '@/lib/utils';
 import Link from 'next/link';
@@ -50,8 +51,16 @@ export default async function Home() {
     })
   );
 
-  // Spotlight game is the most recently added game
-  const heroGame = games[0] || null;
+  // Spotlight game: use admin-chosen game or fall back to most recent
+  let heroGame = games[0] || null;
+  if (config?.spotlight_game_id) {
+    const { data: chosenGame } = await supabase
+      .from('zon_games')
+      .select('*')
+      .eq('id', config.spotlight_game_id)
+      .maybeSingle();
+    if (chosenGame) heroGame = chosenGame;
+  }
 
   return (
     <div className="flex flex-col gap-10">
@@ -83,11 +92,10 @@ export default async function Home() {
           </div>
 
           <div className="w-40 md:w-56 aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl z-10 shrink-0">
-            <img 
+            <ClientImage 
               src={heroGame.game_image_url} 
               alt={heroGame.game_name} 
               className="w-full h-full object-cover"
-              onError={(e) => { e.target.src = '/static/img/user_pic.png'; }}
             />
           </div>
         </div>
