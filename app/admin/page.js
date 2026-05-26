@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { makeSlug } from '@/lib/utils';
+
 
 // ─── Icon Components ────────────────────────────────────────────────────────
 const Icon = ({ d, size = 18, color = 'currentColor', ...props }) => (
@@ -116,6 +118,16 @@ export default function AdminDashboard() {
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState('');
   const [createSuccess, setCreateSuccess] = useState('');
+
+  // Quick Fix Bug / Game state
+  const [showFixModal, setShowFixModal] = useState(false);
+  const [fixReport, setFixReport] = useState(null);
+  const [fixGame, setFixGame] = useState(null);
+  const [fixLoading, setFixLoading] = useState(false);
+  const [fixSaving, setFixSaving] = useState(false);
+  const [fixError, setFixError] = useState('');
+  const [fixSuccess, setFixSuccess] = useState('');
+
 
 
   useEffect(() => {
@@ -346,6 +358,71 @@ export default function AdminDashboard() {
     setCreatePassword(pass);
   };
 
+  const handleOpenFixModal = async (report) => {
+    setFixReport(report);
+    setFixGame(null);
+    setFixLoading(true);
+    setFixError('');
+    setFixSuccess('');
+    setShowFixModal(true);
+    try {
+      const { data, error } = await supabase
+        .from('zon_games')
+        .select('*')
+        .eq('id', report.game_id)
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setFixError('Game associated with this report was not found in the database.');
+      } else {
+        setFixGame(data);
+      }
+    } catch (err) {
+      setFixError('Failed to fetch game details: ' + err.message);
+    } finally {
+      setFixLoading(false);
+    }
+  };
+
+  const handleSaveFixGame = async (e) => {
+    e.preventDefault();
+    if (!fixGame) return;
+    setFixSaving(true);
+    setFixError('');
+    setFixSuccess('');
+    try {
+      const { error } = await supabase
+        .from('zon_games')
+        .update({
+          game_name: fixGame.game_name,
+          game_url: fixGame.game_url,
+          game_category: fixGame.game_category,
+          game_status: fixGame.game_status,
+        })
+        .eq('id', fixGame.id);
+
+      if (error) throw error;
+      setFixSuccess('Game updated successfully!');
+      setTimeout(() => setFixSuccess(''), 3000);
+    } catch (err) {
+      setFixError('Failed to update game: ' + err.message);
+    } finally {
+      setFixSaving(false);
+    }
+  };
+
+  const handleResolveReport = async (reportId) => {
+    if (!confirm('Mark this report as resolved and delete it?')) return;
+    try {
+      await handleDeleteReport(reportId);
+      setShowFixModal(false);
+    } catch (err) {
+      alert('Failed to resolve report: ' + err.message);
+    }
+  };
+
+
 
   // ── Loading screen ────────────────────────────────────────────────────────
   if (loading) {
@@ -534,7 +611,7 @@ export default function AdminDashboard() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-bold text-white capitalize">{r.game_name}</p>
-                          <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-2">{r.problem}</p>
+                          <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-2">{r.report_subject}</p>
                         </div>
                       </div>
                     ))}
@@ -1009,10 +1086,159 @@ export default function AdminDashboard() {
                         <span className="ml-auto text-[10px] text-slate-600 shrink-0">#{r.game_id}</span>
                       </div>
                       <p className="text-[11px] text-slate-300 leading-relaxed bg-slate-900/40 p-3 rounded-xl border border-white/5">
-                        {r.problem}
+                        {r.report_subject}
                       </p>
+                      <div className="flex items-center gap-3 mt-1 pt-2.5 border-t border-white/5">
+                        <Link
+                          href={`/g/${makeSlug(r.game_name)}`}
+                          target="_blank"
+                          className="flex items-center gap-1 text-[10px] font-bold text-slate-400 hover:text-white transition-colors"
+                        >
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                          Test Game
+                        </Link>
+                        <button
+                          onClick={() => handleOpenFixModal(r)}
+                          className="ml-auto flex items-center gap-1 text-[10px] font-bold text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                        >
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                          Fix Game
+                        </button>
+                      </div>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {/* Quick Fix Modal */}
+              {showFixModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
+                  <div className="relative w-full max-w-md glass-panel rounded-3xl border border-white/10 p-6 md:p-8 shadow-2xl flex flex-col gap-5">
+                    {/* Header */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-base font-black text-white">Quick Game Fixer</h3>
+                        <p className="text-[10px] text-slate-500">Fix URL, category, or status directly.</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowFixModal(false)}
+                        className="w-7 h-7 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                      </button>
+                    </div>
+
+                    {/* Loading state */}
+                    {fixLoading && (
+                      <div className="py-12 flex flex-col items-center gap-3">
+                        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                        <p className="text-xs text-slate-500 font-semibold">Loading game details...</p>
+                      </div>
+                    )}
+
+                    {/* Messages */}
+                    {fixError && (
+                      <div className="bg-red-500/10 border border-red-500/25 text-red-400 text-xs font-semibold p-3.5 rounded-xl">
+                        {fixError}
+                      </div>
+                    )}
+                    {fixSuccess && (
+                      <div className="bg-green-500/10 border border-green-500/25 text-green-400 text-xs font-semibold p-3.5 rounded-xl">
+                        {fixSuccess}
+                      </div>
+                    )}
+
+                    {/* Game Editor Form */}
+                    {!fixLoading && fixGame && (
+                      <form onSubmit={handleSaveFixGame} className="flex flex-col gap-4">
+                        <div className="p-3 rounded-xl bg-red-500/5 border border-red-500/10 flex flex-col gap-1">
+                          <p className="text-[10px] font-black text-red-400 uppercase tracking-wider">User Reported Problem</p>
+                          <p className="text-[11px] text-slate-300 leading-relaxed font-medium italic">
+                            &ldquo;{fixReport?.report_subject}&rdquo;
+                          </p>
+                        </div>
+
+                        <FormField label="Game Name">
+                          <input
+                            type="text"
+                            required
+                            value={fixGame.game_name}
+                            onChange={e => setFixGame({ ...fixGame, game_name: e.target.value })}
+                            className="glass-input p-3 rounded-xl text-sm"
+                          />
+                        </FormField>
+
+                        <FormField label="Game Play URL (Iframe Source)">
+                          <input
+                            type="text"
+                            required
+                            value={fixGame.game_url || ''}
+                            onChange={e => setFixGame({ ...fixGame, game_url: e.target.value })}
+                            placeholder="https://..."
+                            className="glass-input p-3 rounded-xl text-sm"
+                          />
+                        </FormField>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <FormField label="Category">
+                            <input
+                              type="text"
+                              required
+                              value={fixGame.game_category || ''}
+                              onChange={e => setFixGame({ ...fixGame, game_category: e.target.value })}
+                              placeholder="action"
+                              className="glass-input p-3 rounded-xl text-sm"
+                            />
+                          </FormField>
+
+                          <FormField label="Status">
+                            <select
+                              value={fixGame.game_status ?? 1}
+                              onChange={e => setFixGame({ ...fixGame, game_status: parseInt(e.target.value, 10) })}
+                              className="glass-input p-3 rounded-xl text-sm bg-[#0a0c14] border border-white/5 text-white"
+                            >
+                              <option value={1}>Active / Online</option>
+                              <option value={0}>Draft / Offline</option>
+                            </select>
+                          </FormField>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex gap-2.5 mt-2">
+                          <Link
+                            href={`/g/${makeSlug(fixGame.game_name)}`}
+                            target="_blank"
+                            className="flex-1 bg-slate-900 hover:bg-slate-800 border border-white/5 text-slate-300 hover:text-white font-bold py-3.5 rounded-xl text-xs transition-all text-center block"
+                          >
+                            Test Page 🔗
+                          </Link>
+                          <button
+                            type="submit"
+                            disabled={fixSaving}
+                            className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-xs transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-1.5 cursor-pointer"
+                          >
+                            {fixSaving ? (
+                              <><div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />Saving...</>
+                            ) : (
+                              'Save Changes'
+                            )}
+                          </button>
+                        </div>
+
+                        <div className="h-px bg-white/5 my-1" />
+
+                        <button
+                          type="button"
+                          onClick={() => handleResolveReport(fixReport.id)}
+                          className="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 font-bold py-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                          Resolve & Delete Report
+                        </button>
+                      </form>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
