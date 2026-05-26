@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 export const revalidate = 0;
 
 export async function generateMetadata({ params }) {
-  const { pageTitle } = params;
+  const { pageTitle } = await params;
   const decodedTitle = decodeURIComponent(pageTitle).replace(/-/g, ' ');
 
   const { data: page } = await supabase
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CustomPage({ params }) {
-  const { pageTitle } = params;
+  const { pageTitle } = await params;
   const decodedTitle = decodeURIComponent(pageTitle).replace(/-/g, ' ');
 
   // Query database matching pages title

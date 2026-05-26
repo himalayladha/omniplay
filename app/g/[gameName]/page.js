@@ -7,7 +7,7 @@ export const revalidate = 0;
 
 // Dynamic metadata generation for game SEO optimization
 export async function generateMetadata({ params }) {
-  const { gameName } = params;
+  const { gameName } = await params;
   const decodedName = decodeURIComponent(gameName).replace(/-/g, ' ');
 
   const { data: game } = await supabase
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function GamePage({ params }) {
-  const { gameName } = params;
+  const { gameName } = await params;
   const decodedName = decodeURIComponent(gameName).replace(/-/g, ' ');
 
   // 1. Fetch game data from database

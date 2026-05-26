@@ -6,7 +6,7 @@ import CategoryCard from '@/components/CategoryCard';
 export const revalidate = 0;
 
 export async function generateMetadata({ params }) {
-  const { categoryName } = params;
+  const { categoryName } = await params;
   const decodedCategory = decodeURIComponent(categoryName).replace(/-/g, ' ');
 
   // Fetch category info to verify it exists
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CategoryPage({ params }) {
-  const { categoryName } = params;
+  const { categoryName } = await params;
   const decodedCategory = decodeURIComponent(categoryName).replace(/-/g, ' ');
 
   // 1. Fetch category info
