@@ -5,13 +5,18 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 
-const STEPS = ['Welcome', 'Admin Account', 'Site Setup', 'Finish'];
+const STEPS = ['Database', 'Welcome', 'Admin Account', 'Site Setup', 'Finish'];
 
 export default function InstallPage() {
   const router = useRouter();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(-1); // -1 = loading
   const [checking, setChecking] = useState(true);
   const [alreadyInstalled, setAlreadyInstalled] = useState(false);
+
+  // Database setup state
+  const [missingTables, setMissingTables] = useState([]);
+  const [dbCheckLoading, setDbCheckLoading] = useState(false);
+  const [sqlCopied, setSqlCopied] = useState(false);
 
   // Admin account fields
   const [name, setName] = useState('');
@@ -33,21 +38,86 @@ export default function InstallPage() {
   useEffect(() => {
     async function checkInstallation() {
       try {
-        // Use server-side API to check install status (bypasses schema cache issues)
-        const res = await fetch('/api/install');
-        const result = await res.json();
+        // Step 1: Check if tables exist via /api/setup
+        const setupRes = await fetch('/api/setup');
+        const setupResult = await setupRes.json();
 
-        if (result.installed) {
+        if (!setupResult.allTablesExist) {
+          // Some tables are missing — show database setup step
+          const missing = Object.entries(setupResult.tables || {})
+            .filter(([, exists]) => !exists)
+            .map(([name]) => name);
+          setMissingTables(missing);
+          setStep(0); // Database setup step
+          setChecking(false);
+          return;
+        }
+
+        // Step 2: Check if an admin already exists
+        const installRes = await fetch('/api/install');
+        const installResult = await installRes.json();
+
+        if (installResult.installed) {
           setAlreadyInstalled(true);
+        } else {
+          setStep(1); // Skip DB step, go to Welcome
         }
       } catch (err) {
         console.error('Install check error:', err);
+        // If API fails entirely, show DB setup step
+        setMissingTables(['Unable to connect — check your Supabase configuration']);
+        setStep(0);
       } finally {
         setChecking(false);
       }
     }
     checkInstallation();
   }, []);
+
+  const handleRecheckDatabase = async () => {
+    setDbCheckLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/setup');
+      const result = await res.json();
+
+      if (result.allTablesExist) {
+        // All tables exist now — check install status
+        const installRes = await fetch('/api/install');
+        const installResult = await installRes.json();
+
+        if (installResult.installed) {
+          setAlreadyInstalled(true);
+        } else {
+          setMissingTables([]);
+          setStep(1); // Move to Welcome
+        }
+      } else {
+        const missing = Object.entries(result.tables || {})
+          .filter(([, exists]) => !exists)
+          .map(([name]) => name);
+        setMissingTables(missing);
+        setError(`${missing.length} table(s) still missing. Please run the setup SQL first.`);
+      }
+    } catch (err) {
+      setError('Failed to check database: ' + err.message);
+    } finally {
+      setDbCheckLoading(false);
+    }
+  };
+
+  const handleCopySQL = async () => {
+    try {
+      const res = await fetch('/setup.sql');
+      const sql = await res.text();
+      await navigator.clipboard.writeText(sql);
+      setSqlCopied(true);
+      setTimeout(() => setSqlCopied(false), 3000);
+    } catch {
+      // Fallback: open SQL file in new tab
+      window.open('/setup.sql', '_blank');
+    }
+  };
 
   const handleCreateAdmin = async (e) => {
     e.preventDefault();
@@ -82,7 +152,7 @@ export default function InstallPage() {
       }
 
       setAdminCreated(true);
-      setStep(2); // Move to site setup
+      setStep(3); // Move to site setup
     } catch (err) {
       setError(err.message || 'Failed to create admin account.');
     } finally {
@@ -115,7 +185,7 @@ export default function InstallPage() {
           site_keywords: 'online games, html5 games, free games',
         });
       }
-      setStep(3);
+      setStep(4);
     } catch (err) {
       setError('Failed to save site config: ' + err.message);
     } finally {
@@ -160,6 +230,9 @@ export default function InstallPage() {
     );
   }
 
+  // Determine active step index for progress bar (offset by -1 if DB step was skipped)
+  const displayStep = step;
+
   return (
     <div className="min-h-screen bg-[#02040a] flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Ambient background glows */}
@@ -184,18 +257,18 @@ export default function InstallPage() {
             <div key={i} className="flex items-center flex-1">
               <div className="flex flex-col items-center gap-1 flex-1">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black transition-all duration-300 ${
-                  i < step ? 'bg-green-500 text-white' :
-                  i === step ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/40' :
+                  i < displayStep ? 'bg-green-500 text-white' :
+                  i === displayStep ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/40' :
                   'bg-slate-800 text-slate-500 border border-slate-700'
                 }`}>
-                  {i < step ? (
+                  {i < displayStep ? (
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
                   ) : i + 1}
                 </div>
-                <span className={`text-[9px] font-bold uppercase tracking-wider hidden sm:block ${i === step ? 'text-blue-400' : 'text-slate-600'}`}>{label}</span>
+                <span className={`text-[9px] font-bold uppercase tracking-wider hidden sm:block ${i === displayStep ? 'text-blue-400' : 'text-slate-600'}`}>{label}</span>
               </div>
               {i < STEPS.length - 1 && (
-                <div className={`h-px flex-1 mx-2 transition-all duration-500 ${i < step ? 'bg-green-500/50' : 'bg-slate-800'}`} />
+                <div className={`h-px flex-1 mx-2 transition-all duration-500 ${i < displayStep ? 'bg-green-500/50' : 'bg-slate-800'}`} />
               )}
             </div>
           ))}
@@ -204,8 +277,84 @@ export default function InstallPage() {
         {/* Step Panels */}
         <div className="glass-panel rounded-3xl border border-white/5 p-6 md:p-8 shadow-2xl">
 
-          {/* Step 0 - Welcome */}
+          {/* Step 0 - Database Setup */}
           {step === 0 && (
+            <div className="flex flex-col gap-5">
+              <div>
+                <h2 className="text-xl font-black text-white mb-1">Database Setup Required</h2>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Your Supabase project needs the required tables before OmniPlay can work. Follow the steps below.
+                </p>
+              </div>
+
+              {error && (
+                <div className="bg-red-500/10 border border-red-500/25 text-red-400 text-xs font-semibold p-3.5 rounded-xl">
+                  {error}
+                </div>
+              )}
+
+              {/* Missing tables list */}
+              <div className="p-4 rounded-2xl bg-red-500/5 border border-red-500/15">
+                <p className="text-[10px] font-black text-red-400 uppercase tracking-widest mb-2">
+                  ⚠ Missing Tables ({missingTables.length})
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {missingTables.map(t => (
+                    <span key={t} className="text-[10px] bg-red-500/10 text-red-300 px-2.5 py-1 rounded-lg font-mono font-bold">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Instructions */}
+              <div className="flex flex-col gap-3">
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-900/40 border border-white/5">
+                  <span className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">1</span>
+                  <div>
+                    <p className="text-sm font-bold text-white">Copy the setup SQL</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Click the button below to copy all CREATE TABLE statements to your clipboard.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-900/40 border border-white/5">
+                  <span className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">2</span>
+                  <div>
+                    <p className="text-sm font-bold text-white">Run it in Supabase SQL Editor</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">
+                      Go to your <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">Supabase Dashboard</a> → SQL Editor → New Query → Paste & Run.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-900/40 border border-white/5">
+                  <span className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-black flex items-center justify-center shrink-0 mt-0.5">3</span>
+                  <div>
+                    <p className="text-sm font-bold text-white">Click "Re-check" below</p>
+                    <p className="text-[10px] text-slate-400 mt-0.5">Once all tables are created, verify and continue to setup.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={handleCopySQL}
+                  className="flex-1 bg-slate-800 hover:bg-slate-700 border border-white/10 text-white font-bold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  {sqlCopied ? '✓ Copied!' : 'Copy Setup SQL'}
+                </button>
+                <button
+                  onClick={handleRecheckDatabase}
+                  disabled={dbCheckLoading}
+                  className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg shadow-blue-500/25 cursor-pointer"
+                >
+                  {dbCheckLoading ? 'Checking...' : 'Re-check Database →'}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 1 - Welcome */}
+          {step === 1 && (
             <div className="flex flex-col gap-6">
               <div>
                 <h2 className="text-xl font-black text-white mb-2">Welcome to OmniPlay! 🎮</h2>
@@ -231,7 +380,7 @@ export default function InstallPage() {
               </div>
 
               <button
-                onClick={() => setStep(1)}
+                onClick={() => setStep(2)}
                 className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 group cursor-pointer"
               >
                 <span>Let's Get Started</span>
@@ -240,8 +389,8 @@ export default function InstallPage() {
             </div>
           )}
 
-          {/* Step 1 - Admin Account */}
-          {step === 1 && (
+          {/* Step 2 - Admin Account */}
+          {step === 2 && (
             <div className="flex flex-col gap-5">
               <div>
                 <h2 className="text-xl font-black text-white mb-1">Create Super Admin Account</h2>
@@ -296,8 +445,8 @@ export default function InstallPage() {
             </div>
           )}
 
-          {/* Step 2 - Site Config */}
-          {step === 2 && (
+          {/* Step 3 - Site Config */}
+          {step === 3 && (
             <div className="flex flex-col gap-5">
               <div>
                 <h2 className="text-xl font-black text-white mb-1">Configure Your Site</h2>
@@ -339,8 +488,8 @@ export default function InstallPage() {
             </div>
           )}
 
-          {/* Step 3 - Done */}
-          {step === 3 && (
+          {/* Step 4 - Done */}
+          {step === 4 && (
             <div className="flex flex-col items-center gap-6 py-4 text-center">
               <div className="w-20 h-20 rounded-3xl bg-green-500/10 border border-green-500/20 flex items-center justify-center">
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

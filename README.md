@@ -39,14 +39,24 @@ Follow these steps to run OmniPlay locally, populate the database, and deploy it
 
 ### 1. Database Setup (Supabase)
 
-Before running the application, you need to populate your PostgreSQL database with the games and site schema.
+Before running the application, you need to set up your PostgreSQL database. OmniPlay supports two setup paths:
 
+#### Option A: Fresh Clean Setup (Recommended for new sites)
+1. Go to your **Supabase Dashboard** and create a new project.
+2. Visit `/install` on your deployed site or local development server. 
+3. The wizard will automatically detect that you have a fresh project and show the **Database Setup** step with a list of missing tables.
+4. Click **Copy Setup SQL** to copy all required table structures (`zon_config`, `zon_users`, etc.) and Row-Level Security (RLS) policies.
+5. Go to your Supabase Dashboard → **SQL Editor** → Click **New Query** → Paste the copied SQL → Click **Run**.
+6. Return to `/install` and click **Re-check Database** to proceed to the admin setup wizard!
+
+#### Option B: Pre-populated Setup (1,000+ games)
 1. Go to your **Supabase Dashboard** and create a new project.
 2. Navigate to the **SQL Editor** in the left sidebar.
 3. Click **New Query**.
 4. Open the SQL migration file [poko_postgres.sql](file:///d:/HIMALAY/1000-html-game-php-by-digirg/poko_postgres.sql) located in the root of the original project directory.
 5. Copy the entire contents of `poko_postgres.sql` and paste them into the Supabase SQL Editor.
-6. Click **Run**. This will create the required tables (`zon_games`, `zon_categories`, `zon_pages`, etc.) and seed the database with over 1,000 HTML5 arcade games.
+6. Click **Run**. This will create all 13 tables and seed them with over 1,000 HTML5 arcade games.
+7. Visit `/install` to complete your admin account setup.
 
 ---
 
@@ -135,3 +145,5 @@ The platform handles interactions via Next.js Serverless routes:
 6. **`/api/admin/create-user`**: Auth Admin endpoint using the Service Role Key to register new users or admins.
 7. **`/api/admin/set-role`**: Auth Admin endpoint promoting or demoting users between User and Admin roles.
 8. **`/api/admin/fetch-games`**: FEEDS game importer fetching listings from the GameMonetize API.
+9. **`/api/setup`**: Performs pre-flight checks on Supabase tables to detect missing schemas for fresh installations.
+10. **`/api/install`**: Server-side endpoint (bypassing RLS with `SUPABASE_SERVICE_ROLE_KEY`) to query installation status and register the first super-admin account securely.
