@@ -14,23 +14,41 @@ export default function GamePlay({ game, relatedGames = [], initialLikes = 0, in
   const [reportOpen, setReportOpen] = useState(false);
   const [reportSubject, setReportSubject] = useState('');
   const [showToast, setShowToast] = useState(false);
+  const [isGameBlocked, setIsGameBlocked] = useState(false);
 
   const containerRef = useRef(null);
 
-  // Auto-increment game views on mount
+  // Auto-increment game views & check if game is embeddable on mount
   useEffect(() => {
-    async function incrementViews() {
+    async function initGamePage() {
       try {
-        await fetch('/api/views', {
+        // Increment views
+        fetch('/api/views', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ gameId: game.id }),
+        }).catch(err => console.error('Error incrementing views:', err));
+
+        // Check if game embedding is blocked
+        const checkRes = await fetch('/api/check-game-embed', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ gameId: game.id }),
         });
+        const checkData = await checkRes.json();
+        
+        if (checkData.success && checkData.active === false) {
+          setIsGameBlocked(true);
+          // Redirect to homepage after 5 seconds
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 5000);
+        }
       } catch (err) {
-        console.error('Error incrementing views:', err);
+        console.error('Error checking game status:', err);
       }
     }
-    incrementViews();
+    initGamePage();
   }, [game.id]);
 
   const handleLike = async () => {
@@ -169,15 +187,36 @@ export default function GamePlay({ game, relatedGames = [], initialLikes = 0, in
       <div className="w-full max-w-[980px] mx-auto flex flex-col gap-6">
         {/* Gameplay Container */}
         <div className={`relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl bg-black border border-white/5 ${isFullscreen ? 'fixed inset-0 z-40 rounded-none w-screen h-screen border-none' : ''}`}>
-          <iframe 
-            id="game" 
-            src={game.game_url} 
-            className="w-full h-full border-none"
-            allowFullScreen
-          />
+          {isGameBlocked ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-slate-950/90 backdrop-blur-md">
+              <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-5 animate-pulse">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+              <h2 className="text-lg md:text-xl font-black text-white tracking-tight">Game Content Blocked</h2>
+              <p className="text-xs md:text-sm text-slate-400 max-w-md mt-2 leading-relaxed">
+                This game cannot be played because its distributor blocks embedding on this domain. 
+                It has been automatically taken offline.
+              </p>
+              <div className="flex items-center gap-2 mt-6 px-3.5 py-2 rounded-xl bg-white/5 border border-white/5">
+                <div className="w-3.5 h-3.5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Redirecting to Homepage...</span>
+              </div>
+            </div>
+          ) : (
+            <iframe 
+              id="game" 
+              src={game.game_url} 
+              className="w-full h-full border-none"
+              allowFullScreen
+            />
+          )}
           
           {/* Minimize Button in Fullscreen */}
-          {isFullscreen && (
+          {isFullscreen && !isGameBlocked && (
             <button 
               onClick={toggleFullscreen}
               className="absolute top-4 right-4 bg-slate-950/60 hover:bg-slate-900/80 border border-white/10 text-white p-2.5 rounded-xl transition-all z-50 cursor-pointer"

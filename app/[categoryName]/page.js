@@ -49,6 +49,7 @@ export default async function CategoryPage({ params }) {
   const { data: games = [] } = await supabase
     .from('zon_games')
     .select('*')
+    .eq('game_status', 1)
     .eq('game_category', category.name.toLowerCase())
     .order('id', { ascending: false });
 
@@ -63,11 +64,13 @@ export default async function CategoryPage({ params }) {
       const { count } = await supabase
         .from('zon_games')
         .select('*', { count: 'exact', head: true })
+        .eq('game_status', 1)
         .eq('game_category', cat.name.toLowerCase());
 
       const { data: sampleGame } = await supabase
         .from('zon_games')
         .select('game_image_url')
+        .eq('game_status', 1)
         .eq('game_category', cat.name.toLowerCase())
         .limit(1);
 
@@ -83,8 +86,8 @@ export default async function CategoryPage({ params }) {
     <div className="flex flex-col gap-8">
       {/* Category Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#002b50] capitalize mb-2">{category.name} Games</h1>
-        <p className="text-sm text-gray-500 font-medium">Browse and play the best free {category.name} games.</p>
+        <h1 className="text-2xl font-black text-white capitalize mb-2">{category.name} Games</h1>
+        <p className="text-sm text-slate-400 font-medium">Browse and play the best free {category.name} games.</p>
       </div>
 
       {/* Category Games Grid */}
@@ -96,15 +99,15 @@ export default async function CategoryPage({ params }) {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 bg-white rounded-2xl border border-gray-100 shadow-sm">
-            <span className="text-gray-400 text-sm font-semibold">No games available in this category yet.</span>
+          <div className="text-center py-12 glass-panel rounded-2xl border border-white/5 shadow-2xl">
+            <span className="text-slate-400 text-sm font-semibold">No games available in this category yet.</span>
           </div>
         )}
       </div>
 
       {/* Category Browse Grid */}
-      <div className="mt-8 border-t border-gray-100 pt-8">
-        <h2 className="text-lg font-bold text-[#002b50] mb-4">Other Categories</h2>
+      <div className="mt-8 border-t border-white/5 pt-8">
+        <h2 className="text-lg font-bold text-white mb-4">Other Categories</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {enrichedCategories.map((cat) => (
             <CategoryCard 

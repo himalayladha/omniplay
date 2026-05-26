@@ -19,6 +19,7 @@ export default async function Home() {
   const { data: games = [] } = await supabase
     .from('zon_games')
     .select('*')
+    .eq('game_status', 1)
     .order('id', { ascending: false })
     .limit(200);
 
@@ -34,12 +35,14 @@ export default async function Home() {
       const { count } = await supabase
         .from('zon_games')
         .select('*', { count: 'exact', head: true })
+        .eq('game_status', 1)
         .eq('game_category', cat.name.toLowerCase());
 
       // Get sample game thumbnail
       const { data: sampleGame } = await supabase
         .from('zon_games')
         .select('game_image_url')
+        .eq('game_status', 1)
         .eq('game_category', cat.name.toLowerCase())
         .limit(1);
 

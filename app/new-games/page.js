@@ -12,6 +12,7 @@ export default async function NewGamesPage() {
   const { data: games = [] } = await supabase
     .from('zon_games')
     .select('*')
+    .eq('game_status', 1)
     .order('id', { ascending: false })
     .limit(100);
 

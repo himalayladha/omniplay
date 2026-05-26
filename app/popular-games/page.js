@@ -12,6 +12,7 @@ export default async function PopularGamesPage() {
   const { data: games = [] } = await supabase
     .from('zon_games')
     .select('*')
+    .eq('game_status', 1)
     .order('game_played', { ascending: false })
     .limit(100);
 

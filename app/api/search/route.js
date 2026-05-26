@@ -13,6 +13,7 @@ export async function GET(request) {
     const { data: games, error } = await supabase
       .from('zon_games')
       .select('*')
+      .eq('game_status', 1)
       .ilike('game_name', `%${q}%`)
       .limit(20);
 
