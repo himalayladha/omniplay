@@ -30,6 +30,20 @@ export default function AdminDashboard() {
         router.push('/login');
         return;
       }
+      
+      // Fetch user profile to verify admin privileges
+      const { data: profile, error } = await supabase
+        .from('zon_users')
+        .select('is_admin')
+        .eq('email', session.user.email)
+        .maybeSingle();
+
+      if (error || !profile || profile.is_admin !== 1) {
+        console.error('Unauthorized access attempt or error:', error);
+        router.push('/');
+        return;
+      }
+
       setUser(session.user);
       await Promise.all([fetchStats(), fetchReports(), fetchConfig()]);
       setLoading(false);
