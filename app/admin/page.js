@@ -16,13 +16,18 @@ const Icon = ({ d, size = 18, color = 'currentColor', ...props }) => (
 
 // ─── Sidebar Navigation Items ────────────────────────────────────────────────
 const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z' },
-  { id: 'games',     label: 'Manage Games', icon: 'M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z' },
-  { id: 'fetch',     label: 'Fetch Games',  icon: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3' },
-  { id: 'config',    label: 'Site Settings', icon: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z' },
-  { id: 'users',     label: 'User Management', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75' },
-  { id: 'reports',   label: 'Bug Reports', icon: 'M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01' },
-  { id: 'database',  label: 'Database', icon: 'M12 2C6.48 2 2 4.24 2 7v10c0 2.76 4.48 5 10 5s10-2.24 10-5V7c0-2.76-4.48-5-10-5zM2 12c0 2.76 4.48 5 10 5s10-2.24 10-5M2 7c0 2.76 4.48 5 10 5s10-2.24 10-5' },
+  { id: 'dashboard',   label: 'Dashboard', icon: 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z' },
+  { id: 'games',       label: 'Manage Games', icon: 'M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z' },
+  { id: 'fetch',       label: 'Fetch Games',  icon: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3' },
+  { id: 'config',      label: 'Site Settings', icon: 'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z' },
+  { id: 'ads',         label: 'Monetization Ads', icon: 'M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6' },
+  { id: 'blogs',       label: 'Manage Blog',  icon: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm8 4h6m-6 4h6m-14 4h14' },
+  { id: 'comments',    label: 'Comment Moderator', icon: 'M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z' },
+  { id: 'categories',  label: 'Categories',   icon: 'M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z' },
+  { id: 'users',       label: 'User Management', icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75' },
+  { id: 'reports',     label: 'Bug Reports', icon: 'M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01' },
+  { id: 'maintenance', label: 'System Maintenance', icon: 'M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z' },
+  { id: 'database',    label: 'Database', icon: 'M12 2C6.48 2 2 4.24 2 7v10c0 2.76 4.48 5 10 5s10-2.24 10-5V7c0-2.76-4.48-5-10-5zM2 12c0 2.76 4.48 5 10 5s10-2.24 10-5M2 7c0 2.76 4.48 5 10 5s10-2.24 10-5' },
 ];
 
 // ─── Stat Card ───────────────────────────────────────────────────────────────
@@ -71,6 +76,65 @@ function FormField({ label, children }) {
     <div className="flex flex-col gap-1.5">
       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</label>
       {children}
+    </div>
+  );
+}
+
+// ─── Ad Slot Component ────────────────────────────────────────────────────────
+function AdSlotItem({ ad, onSave, saving }) {
+  const [code, setCode] = useState(ad.code || '');
+  const [status, setStatus] = useState(ad.status || 0);
+
+  useEffect(() => {
+    setCode(ad.code || '');
+    setStatus(ad.status || 0);
+  }, [ad]);
+
+  return (
+    <div className="glass-panel rounded-2xl p-5 border border-white/5 flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-black text-white capitalize">{ad.ad_name} Slot</p>
+          <p className="text-[10px] text-slate-500">ID: {ad.id}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status:</span>
+          <button
+            type="button"
+            onClick={() => setStatus(status === 1 ? 0 : 1)}
+            className={`text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider transition-all cursor-pointer ${
+              status === 1
+                ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+                : 'bg-slate-800/60 text-slate-500 border border-white/5'
+            }`}
+          >
+            {status === 1 ? 'Active' : 'Inactive'}
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Ad Snippet / HTML Code</label>
+        <textarea
+          value={code}
+          onChange={e => setCode(e.target.value)}
+          rows={5}
+          placeholder="Paste ad script/iframe code here..."
+          className="glass-input p-3 rounded-xl text-xs font-mono resize-y"
+        />
+      </div>
+
+      <button
+        onClick={() => onSave(ad.id, code, status)}
+        disabled={saving}
+        className="w-full bg-blue-500/15 hover:bg-blue-500/25 text-blue-400 border border-blue-500/25 font-bold py-2 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+      >
+        {saving ? (
+          <><div className="w-3.5 h-3.5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />Saving...</>
+        ) : (
+          'Save Ad Slot Settings'
+        )}
+      </button>
     </div>
   );
 }
@@ -169,6 +233,55 @@ export default function AdminDashboard() {
   const [fetchMsg, setFetchMsg] = useState('');
   const [fetchMsgType, setFetchMsgType] = useState('');
 
+  // Ads states
+  const [adsList, setAdsList] = useState([]);
+  const [adsLoading, setAdsLoading] = useState(false);
+  const [adSaveLoading, setAdSaveLoading] = useState(null);
+
+  // Blog states
+  const [blogsList, setBlogsList] = useState([]);
+  const [blogsLoading, setBlogsLoading] = useState(false);
+  const [blogPage, setBlogPage] = useState(1);
+  const [blogTotal, setBlogTotal] = useState(0);
+  const [showBlogModal, setShowBlogModal] = useState(false);
+  const [editBlog, setEditBlog] = useState(null);
+  const [blogTitle, setBlogTitle] = useState('');
+  const [blogDesc, setBlogDesc] = useState('');
+  const [blogContent, setBlogContent] = useState('');
+  const [blogImage, setBlogImage] = useState('');
+  const [blogSaveLoading, setBlogSaveLoading] = useState(false);
+  const [blogError, setBlogError] = useState('');
+  const [blogSuccess, setBlogSuccess] = useState('');
+
+  // Comment moderator states
+  const [commentsList, setCommentsList] = useState([]);
+  const [commentsLoading, setCommentsLoading] = useState(false);
+  const [commentSearch, setCommentSearch] = useState('');
+  const [commentPage, setCommentPage] = useState(1);
+  const [commentTotal, setCommentTotal] = useState(0);
+
+  // Categories manager states
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [editCategory, setEditCategory] = useState(null);
+  const [categoryNameInput, setCategoryNameInput] = useState('');
+  const [categorySlugInput, setCategorySlugInput] = useState('');
+  const [categorySaveLoading, setCategorySaveLoading] = useState(false);
+  const [categoryError, setCategoryError] = useState('');
+  const [categorySuccess, setCategorySuccess] = useState('');
+
+  // System Maintenance / Link checker states
+  const [isChecking, setIsChecking] = useState(false);
+  const [checkProgress, setCheckProgress] = useState(0);
+  const [checkedCount, setCheckedCount] = useState(0);
+  const [blockedCount, setBlockedCount] = useState(0);
+  const [totalToCheck, setTotalToCheck] = useState(0);
+  const [checkLogs, setCheckLogs] = useState([]);
+
+  // Analytics states
+  const [topGames, setTopGames] = useState([]);
+  const [categoryStats, setCategoryStats] = useState([]);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
+
 
 
 
@@ -189,7 +302,7 @@ export default function AdminDashboard() {
       }
       setSession(s);
       setUser({ ...s.user, ...profile });
-      await Promise.all([fetchStats(), fetchReports(), fetchConfig(), fetchCategories()]);
+      await Promise.all([fetchStats(), fetchReports(), fetchConfig(), fetchCategories(), fetchAnalytics()]);
       setLoading(false);
     }
     checkAuth();
@@ -281,6 +394,370 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (activeTab === 'games') fetchGames(gameSearch, gamePage);
   }, [activeTab, gameSearch, gamePage, fetchGames]);
+
+  useEffect(() => {
+    if (activeTab === 'ads') fetchAds();
+    if (activeTab === 'blogs') fetchBlogs(blogPage);
+    if (activeTab === 'comments') fetchComments(commentSearch, commentPage);
+    if (activeTab === 'categories') fetchCategories();
+  }, [activeTab, blogPage, commentSearch, commentPage]);
+
+  const fetchAnalytics = async () => {
+    setAnalyticsLoading(true);
+    try {
+      const { data: top } = await supabase
+        .from('zon_games')
+        .select('game_name, game_played')
+        .order('game_played', { ascending: false })
+        .limit(5);
+      setTopGames(top || []);
+
+      const { data: gamesCat } = await supabase
+        .from('zon_games')
+        .select('game_category');
+
+      if (gamesCat) {
+        const counts = {};
+        gamesCat.forEach(g => {
+          const cat = g.game_category || 'uncategorized';
+          counts[cat] = (counts[cat] || 0) + 1;
+        });
+        
+        const sortedCats = Object.entries(counts)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 5);
+        setCategoryStats(sortedCats);
+      }
+    } catch (err) {
+      console.error('Error fetching analytics:', err);
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  };
+
+  const fetchAds = async () => {
+    setAdsLoading(true);
+    try {
+      const { data, error } = await supabase.from('zon_ads').select('*').order('id', { ascending: true });
+      if (error) throw error;
+      setAdsList(data || []);
+    } catch (err) {
+      console.error('Error fetching ads:', err);
+    } finally {
+      setAdsLoading(false);
+    }
+  };
+
+  const handleSaveAd = async (id, code, status) => {
+    setAdSaveLoading(id);
+    try {
+      const { error } = await supabase.from('zon_ads').update({ code, status }).eq('id', id);
+      if (error) throw error;
+      await fetchAds();
+    } catch (err) {
+      console.error('Error saving ad:', err);
+      alert('Failed to save ad: ' + err.message);
+    } finally {
+      setAdSaveLoading(null);
+    }
+  };
+
+  const fetchBlogs = async (page = 1) => {
+    setBlogsLoading(true);
+    try {
+      const limit = 10;
+      const from = (page - 1) * limit;
+      const to = from + limit - 1;
+
+      const { data, count, error } = await supabase
+        .from('zon_blog')
+        .select('*', { count: 'exact' })
+        .order('id', { ascending: false })
+        .range(from, to);
+
+      if (error) throw error;
+      setBlogsList(data || []);
+      setBlogTotal(count || 0);
+    } catch (err) {
+      console.error('Error fetching blogs:', err);
+    } finally {
+      setBlogsLoading(false);
+    }
+  };
+
+  const handleOpenBlogModal = (blog = null) => {
+    setBlogError('');
+    setBlogSuccess('');
+    if (blog) {
+      setEditBlog(blog);
+      setBlogTitle(blog.blog_title || '');
+      setBlogDesc(blog.blog_desc || '');
+      setBlogContent(blog.blog_content || '');
+      setBlogImage(blog.blog_image || '');
+    } else {
+      setEditBlog(null);
+      setBlogTitle('');
+      setBlogDesc('');
+      setBlogContent('');
+      setBlogImage('');
+    }
+    setShowBlogModal(true);
+  };
+
+  const handleSaveBlog = async (e) => {
+    e.preventDefault();
+    setBlogSaveLoading(true);
+    setBlogError('');
+    setBlogSuccess('');
+    try {
+      const blogData = {
+        blog_title: blogTitle.trim(),
+        blog_desc: blogDesc.trim(),
+        blog_content: blogContent.trim(),
+        blog_image: blogImage.trim(),
+        blog_date: new Date().toISOString()
+      };
+
+      if (editBlog) {
+        const { error } = await supabase.from('zon_blog').update(blogData).eq('id', editBlog.id);
+        if (error) throw error;
+        setBlogSuccess('Blog post updated successfully!');
+      } else {
+        const { error } = await supabase.from('zon_blog').insert(blogData);
+        if (error) throw error;
+        setBlogSuccess('Blog post created successfully!');
+      }
+
+      await fetchBlogs(blogPage);
+      setTimeout(() => {
+        setShowBlogModal(false);
+        setBlogSuccess('');
+      }, 1500);
+    } catch (err) {
+      setBlogError('Error saving blog: ' + err.message);
+    } finally {
+      setBlogSaveLoading(false);
+    }
+  };
+
+  const handleDeleteBlog = async (id) => {
+    if (!confirm('Are you sure you want to delete this blog post?')) return;
+    try {
+      const { error } = await supabase.from('zon_blog').delete().eq('id', id);
+      if (error) throw error;
+      await fetchBlogs(blogPage);
+    } catch (err) {
+      alert('Error deleting blog: ' + err.message);
+    }
+  };
+
+  const fetchComments = async (search = '', page = 1) => {
+    setCommentsLoading(true);
+    try {
+      const limit = 20;
+      const from = (page - 1) * limit;
+      const to = from + limit - 1;
+
+      let q = supabase
+        .from('zon_comments')
+        .select('*', { count: 'exact' })
+        .order('id', { ascending: false })
+        .range(from, to);
+
+      if (search.trim()) {
+        q = q.ilike('subject', `%${search}%`);
+      }
+
+      const { data: comments, count, error } = await q;
+      if (error) throw error;
+
+      if (!comments || comments.length === 0) {
+        setCommentsList([]);
+        setCommentTotal(0);
+        return;
+      }
+
+      const uIds = [...new Set(comments.map(c => c.user_id).filter(Boolean))];
+      const gIds = [...new Set(comments.map(c => c.game_id).filter(Boolean))];
+
+      const [usersRes, gamesRes] = await Promise.all([
+        uIds.length > 0 ? supabase.from('zon_users').select('id, name, username').in('id', uIds) : { data: [] },
+        gIds.length > 0 ? supabase.from('zon_games').select('id, game_name').in('id', gIds) : { data: [] }
+      ]);
+
+      const userMap = {};
+      (usersRes.data || []).forEach(u => { userMap[u.id] = u; });
+
+      const gameMap = {};
+      (gamesRes.data || []).forEach(g => { gameMap[g.id] = g; });
+
+      const enrichedComments = comments.map(c => ({
+        ...c,
+        user: userMap[c.user_id] || { name: 'Anonymous', username: 'anonymous' },
+        game: gameMap[c.game_id] || { game_name: 'Unknown Game' }
+      }));
+
+      setCommentsList(enrichedComments);
+      setCommentTotal(count || 0);
+    } catch (err) {
+      console.error('Error fetching comments:', err);
+    } finally {
+      setCommentsLoading(false);
+    }
+  };
+
+  const handleDeleteComment = async (id) => {
+    if (!confirm('Are you sure you want to delete this comment?')) return;
+    try {
+      const { error } = await supabase.from('zon_comments').delete().eq('id', id);
+      if (error) throw error;
+      await fetchComments(commentSearch, commentPage);
+    } catch (err) {
+      alert('Error deleting comment: ' + err.message);
+    }
+  };
+
+  const handleOpenCategoryModal = (cat = null) => {
+    setCategoryError('');
+    setCategorySuccess('');
+    if (cat) {
+      setEditCategory(cat);
+      setCategoryNameInput(cat.name || '');
+      setCategorySlugInput(cat.slug || '');
+    } else {
+      setEditCategory(null);
+      setCategoryNameInput('');
+      setCategorySlugInput('');
+    }
+    setShowCategoryModal(true);
+  };
+
+  const handleSaveCategory = async (e) => {
+    e.preventDefault();
+    setCategorySaveLoading(true);
+    setCategoryError('');
+    setCategorySuccess('');
+    try {
+      const catData = {
+        name: categoryNameInput.trim(),
+        slug: categorySlugInput.trim().toLowerCase() || makeSlug(categoryNameInput.trim())
+      };
+
+      if (editCategory) {
+        const { error } = await supabase.from('zon_category').update(catData).eq('id', editCategory.id);
+        if (error) throw error;
+        setCategorySuccess('Category updated successfully!');
+      } else {
+        const { error } = await supabase.from('zon_category').insert(catData);
+        if (error) throw error;
+        setCategorySuccess('Category created successfully!');
+      }
+
+      await fetchCategories();
+      await fetchStats();
+      setTimeout(() => {
+        setShowCategoryModal(false);
+        setCategorySuccess('');
+      }, 1500);
+    } catch (err) {
+      setCategoryError('Error saving category: ' + err.message);
+    } finally {
+      setCategorySaveLoading(false);
+    }
+  };
+
+  const handleDeleteCategory = async (id) => {
+    if (!confirm('Are you sure you want to delete this category?')) return;
+    try {
+      const { error } = await supabase.from('zon_category').delete().eq('id', id);
+      if (error) throw error;
+      await fetchCategories();
+      await fetchStats();
+    } catch (err) {
+      alert('Error deleting category: ' + err.message);
+    }
+  };
+
+  const handleStartLinkCheck = async () => {
+    if (isChecking) return;
+    setIsChecking(true);
+    setCheckProgress(0);
+    setCheckedCount(0);
+    setBlockedCount(0);
+    setCheckLogs([{ text: 'Initializing link scanning for all active games...', type: 'info' }]);
+
+    try {
+      const { data: games, error } = await supabase
+        .from('zon_games')
+        .select('id, game_name, game_url')
+        .eq('game_status', 1);
+
+      if (error) throw error;
+      if (!games || games.length === 0) {
+        setCheckLogs(prev => [...prev, { text: 'No active games found to scan.', type: 'warn' }]);
+        setIsChecking(false);
+        return;
+      }
+
+      const total = games.length;
+      setTotalToCheck(total);
+      setCheckLogs(prev => [...prev, { text: `Found ${total} active games. Starting crawl batch process...`, type: 'info' }]);
+
+      const batchSize = 5;
+      let checked = 0;
+      let blocked = 0;
+
+      for (let i = 0; i < total; i += batchSize) {
+        if (!isChecking) break;
+        const batch = games.slice(i, i + batchSize);
+        
+        await Promise.all(batch.map(async (game) => {
+          try {
+            const res = await fetch('/api/check-game-embed', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ gameId: game.id })
+            });
+            const data = await res.json();
+            
+            checked++;
+            setCheckedCount(checked);
+            
+            if (data.success) {
+              if (data.active) {
+                setCheckLogs(prev => [...prev, { text: `✅ "${game.game_name}" is active and embeddable.`, type: 'success' }]);
+              } else {
+                blocked++;
+                setBlockedCount(blocked);
+                setCheckLogs(prev => [...prev, { text: `❌ Blocked: "${game.game_name}" taken offline. Reason: ${data.reason}`, type: 'error' }]);
+              }
+            } else {
+              blocked++;
+              setBlockedCount(blocked);
+              setCheckLogs(prev => [...prev, { text: `❌ Error checking "${game.game_name}": ${data.error}`, type: 'error' }]);
+            }
+          } catch (err) {
+            checked++;
+            blocked++;
+            setCheckedCount(checked);
+            setBlockedCount(blocked);
+            setCheckLogs(prev => [...prev, { text: `❌ Failed network check for "${game.game_name}": ${err.message}`, type: 'error' }]);
+          }
+        }));
+
+        setCheckProgress(Math.round((checked / total) * 100));
+        await new Promise(r => setTimeout(r, 800));
+      }
+
+      setCheckLogs(prev => [...prev, { text: `Crawl complete. Checked ${checked} games. Blocked/Disabled: ${blocked}.`, type: 'info' }]);
+      await fetchStats();
+    } catch (err) {
+      setCheckLogs(prev => [...prev, { text: `Fatal scanning error: ${err.message}`, type: 'error' }]);
+    } finally {
+      setIsChecking(false);
+    }
+  };
 
 
   const handleSaveConfig = async (e) => {
@@ -948,6 +1425,69 @@ export default function AdminDashboard() {
                 <StatCard label="Categories"       value={stats.categories} color="purple" icon="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                 <StatCard label="Registered Users" value={stats.users}      color="green"  icon="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8z" />
                 <StatCard label="Bug Reports"      value={stats.reports}    color="red"    icon="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01" />
+              </div>
+
+              {/* Visual Analytics */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Top Played Games Chart */}
+                <div className="glass-panel rounded-2xl p-5 border border-white/5 flex flex-col gap-4">
+                  <SectionTitle sub="Top 5 games by total play sessions">Most Played Games</SectionTitle>
+                  {analyticsLoading ? (
+                    <div className="py-8 flex items-center justify-center">
+                      <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  ) : topGames.length === 0 ? (
+                    <div className="py-8 text-center text-slate-500 text-xs">No analytics data available.</div>
+                  ) : (
+                    <div className="flex flex-col gap-4.5">
+                      {topGames.map((g, idx) => {
+                        const maxVal = topGames[0]?.game_played || 1;
+                        const percent = Math.max(5, Math.round((g.game_played / maxVal) * 100));
+                        return (
+                          <div key={idx} className="flex flex-col gap-1.5">
+                            <div className="flex justify-between text-xs font-semibold">
+                              <span className="text-slate-300 truncate capitalize">{g.game_name}</span>
+                              <span className="text-blue-400 font-bold">{g.game_played.toLocaleString()} plays</span>
+                            </div>
+                            <div className="w-full bg-slate-950/40 rounded-full h-2.5 border border-white/5 overflow-hidden">
+                              <div className="bg-gradient-to-r from-blue-500 to-indigo-500 h-full rounded-full transition-all duration-1000" style={{ width: `${percent}%` }} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* Category Popularity Chart */}
+                <div className="glass-panel rounded-2xl p-5 border border-white/5 flex flex-col gap-4">
+                  <SectionTitle sub="Categories with the most games registered">Category Distribution</SectionTitle>
+                  {analyticsLoading ? (
+                    <div className="py-8 flex items-center justify-center">
+                      <div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  ) : categoryStats.length === 0 ? (
+                    <div className="py-8 text-center text-slate-500 text-xs">No category data available.</div>
+                  ) : (
+                    <div className="flex flex-col gap-4.5">
+                      {categoryStats.map((c, idx) => {
+                        const maxVal = categoryStats[0]?.count || 1;
+                        const percent = Math.max(5, Math.round((c.count / maxVal) * 100));
+                        return (
+                          <div key={idx} className="flex flex-col gap-1.5">
+                            <div className="flex justify-between text-xs font-semibold">
+                              <span className="text-slate-300 truncate capitalize">{c.name}</span>
+                              <span className="text-purple-400 font-bold">{c.count} games</span>
+                            </div>
+                            <div className="w-full bg-slate-950/40 rounded-full h-2.5 border border-white/5 overflow-hidden">
+                              <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-1000" style={{ width: `${percent}%` }} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Quick Actions */}
@@ -2155,6 +2695,534 @@ export default function AdminDashboard() {
                       <code className="text-[10px] text-slate-500 bg-slate-900/60 px-2 py-0.5 rounded-md border border-white/5">{item.table}</code>
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ─ MONETIZATION ADS TAB ────────────────────────────────────────── */}
+          {activeTab === 'ads' && (
+            <div className="flex flex-col gap-6">
+              <SectionTitle sub="Manage advertisement codes and slot status">Monetization Ads</SectionTitle>
+
+              {adsLoading ? (
+                <div className="py-12 flex items-center justify-center">
+                  <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : adsList.length === 0 ? (
+                <div className="py-12 text-center text-slate-500 text-sm">No ad records found.</div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {adsList.map(ad => (
+                    <AdSlotItem key={ad.id} ad={ad} onSave={handleSaveAd} saving={adSaveLoading === ad.id} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─ BLOGS TAB ──────────────────────────────────────────────────── */}
+          {activeTab === 'blogs' && (
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-end gap-4 justify-between">
+                <SectionTitle sub={`${blogTotal} blog post${blogTotal !== 1 ? 's' : ''}`}>Manage Blog</SectionTitle>
+                <button
+                  onClick={() => handleOpenBlogModal(null)}
+                  className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-blue-500/20 hover:shadow-blue-500/30 flex items-center gap-1.5 shrink-0 cursor-pointer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  New Article
+                </button>
+              </div>
+
+              <div className="glass-panel rounded-2xl border border-white/5 overflow-hidden">
+                <div className="grid grid-cols-12 gap-3 px-5 py-3 border-b border-white/5 bg-slate-900/30">
+                  <div className="col-span-8 md:col-span-9 text-[10px] font-black text-slate-500 uppercase tracking-wider">Article</div>
+                  <div className="col-span-4 md:col-span-3 text-[10px] font-black text-slate-500 uppercase tracking-wider text-right">Actions</div>
+                </div>
+
+                {blogsLoading ? (
+                  <div className="py-12 flex items-center justify-center">
+                    <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                  </div>
+                ) : blogsList.length === 0 ? (
+                  <div className="py-12 text-center text-slate-500 text-sm">No blog posts found.</div>
+                ) : (
+                  <div className="divide-y divide-white/5">
+                    {blogsList.map(blog => (
+                      <div key={blog.id} className="grid grid-cols-12 gap-3 px-5 py-3.5 items-center hover:bg-white/2 transition-colors">
+                        <div className="col-span-8 md:col-span-9 flex items-center gap-3 min-w-0">
+                          <img
+                            src={blog.blog_image || '/static/img/user_pic.png'}
+                            alt={blog.blog_title}
+                            className="w-10 h-10 rounded-lg object-cover border border-white/10 shrink-0"
+                            onError={e => { e.target.src = '/static/img/user_pic.png'; }}
+                          />
+                          <div className="min-w-0">
+                            <p className="text-xs font-bold text-white truncate capitalize">{blog.blog_title}</p>
+                            <p className="text-[10px] text-slate-500 truncate">{blog.blog_desc || 'No description'}</p>
+                          </div>
+                        </div>
+                        <div className="col-span-4 md:col-span-3 flex justify-end gap-2">
+                          <button
+                            onClick={() => handleOpenBlogModal(blog)}
+                            className="text-[10px] font-bold px-2.5 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all cursor-pointer"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteBlog(blog.id)}
+                            className="text-[10px] font-bold px-2.5 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all cursor-pointer"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {blogTotal > 10 && (
+                <div className="flex items-center justify-between mt-2">
+                  <p className="text-[11px] text-slate-500">
+                    Showing {(blogPage - 1) * 10 + 1} - {Math.min(blogPage * 10, blogTotal)} of {blogTotal} posts
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setBlogPage(prev => Math.max(1, prev - 1))}
+                      disabled={blogPage === 1}
+                      className="px-3.5 py-1.5 rounded-xl border border-white/5 bg-slate-900/40 text-slate-400 hover:text-white text-xs font-bold transition-all disabled:opacity-30 disabled:hover:text-slate-400 cursor-pointer"
+                    >
+                      Previous
+                    </button>
+                    <span className="text-xs text-white font-bold px-2">{blogPage}</span>
+                    <button
+                      onClick={() => setBlogPage(prev => Math.min(Math.ceil(blogTotal / 10), prev + 1))}
+                      disabled={blogPage >= Math.ceil(blogTotal / 10)}
+                      className="px-3.5 py-1.5 rounded-xl border border-white/5 bg-slate-900/40 text-slate-400 hover:text-white text-xs font-bold transition-all disabled:opacity-30 disabled:hover:text-slate-400 cursor-pointer"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Blog Modal */}
+              {showBlogModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 overflow-y-auto animate-fade-in">
+                  <div className="relative w-full max-w-2xl glass-panel rounded-3xl border border-white/10 p-6 md:p-8 shadow-2xl flex flex-col gap-5 my-8">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-base font-black text-white">{editBlog ? 'Edit Blog Post' : 'Create Blog Post'}</h3>
+                        <p className="text-[10px] text-slate-500">Publish news, updates, or articles.</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowBlogModal(false)}
+                        className="w-7 h-7 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                      </button>
+                    </div>
+
+                    {blogError && (
+                      <div className="bg-red-500/10 border border-red-500/25 text-red-400 text-xs font-semibold p-3 rounded-xl">
+                        {blogError}
+                      </div>
+                    )}
+                    {blogSuccess && (
+                      <div className="bg-green-500/10 border border-green-500/25 text-green-400 text-xs font-semibold p-3 rounded-xl">
+                        {blogSuccess}
+                      </div>
+                    )}
+
+                    <form onSubmit={handleSaveBlog} className="flex flex-col gap-4">
+                      <FormField label="Blog Title">
+                        <input
+                          type="text"
+                          required
+                          value={blogTitle}
+                          onChange={e => setBlogTitle(e.target.value)}
+                          placeholder="e.g. Big Update: New Multiplayer Games Added!"
+                          className="glass-input p-3 rounded-xl text-sm"
+                        />
+                      </FormField>
+
+                      <FormField label="Thumbnail Image URL">
+                        <input
+                          type="text"
+                          required
+                          value={blogImage}
+                          onChange={e => setBlogImage(e.target.value)}
+                          placeholder="https://..."
+                          className="glass-input p-3 rounded-xl text-sm"
+                        />
+                      </FormField>
+
+                      <FormField label="Short Summary/Excerpt">
+                        <input
+                          type="text"
+                          required
+                          value={blogDesc}
+                          onChange={e => setBlogDesc(e.target.value)}
+                          placeholder="A brief tagline summary for listing cards..."
+                          className="glass-input p-3 rounded-xl text-sm"
+                        />
+                      </FormField>
+
+                      <FormField label="HTML Body Content">
+                        <textarea
+                          required
+                          value={blogContent}
+                          onChange={e => setBlogContent(e.target.value)}
+                          rows={8}
+                          placeholder="Write article content. HTML tags are allowed..."
+                          className="glass-input p-3 rounded-xl text-sm resize-y font-mono text-xs"
+                        />
+                      </FormField>
+
+                      <div className="flex gap-3 mt-2">
+                        <button
+                          type="button"
+                          onClick={() => setShowBlogModal(false)}
+                          className="flex-1 bg-slate-900 hover:bg-slate-800 border border-white/5 text-slate-400 hover:text-white font-bold py-3.5 rounded-xl text-xs transition-all cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={blogSaveLoading}
+                          className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-xs transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          {blogSaveLoading ? (
+                            <><div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />Saving...</>
+                          ) : (
+                            editBlog ? 'Save Changes' : 'Publish Article'
+                          )}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─ COMMENTS MODERATOR TAB ───────────────────────────────────────── */}
+          {activeTab === 'comments' && (
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-end gap-4 justify-between">
+                <SectionTitle sub={`${commentTotal} user comment${commentTotal !== 1 ? 's' : ''}`}>Comment Moderator</SectionTitle>
+                <div className="relative w-full sm:w-64 shrink-0">
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input
+                    type="text"
+                    value={commentSearch}
+                    onChange={e => { setCommentSearch(e.target.value); setCommentPage(1); }}
+                    placeholder="Search comments..."
+                    className="glass-input w-full pl-9 pr-4 py-2.5 rounded-xl text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="glass-panel rounded-2xl border border-white/5 overflow-hidden">
+                <div className="grid grid-cols-12 gap-3 px-5 py-3 border-b border-white/5 bg-slate-900/30">
+                  <div className="col-span-3 text-[10px] font-black text-slate-500 uppercase tracking-wider">User</div>
+                  <div className="col-span-7 text-[10px] font-black text-slate-500 uppercase tracking-wider">Comment & Game</div>
+                  <div className="col-span-2 text-[10px] font-black text-slate-500 uppercase tracking-wider text-right">Actions</div>
+                </div>
+
+                {commentsLoading ? (
+                  <div className="py-12 flex items-center justify-center">
+                    <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                  </div>
+                ) : commentsList.length === 0 ? (
+                  <div className="py-12 text-center text-slate-500 text-sm">No comments found.</div>
+                ) : (
+                  <div className="divide-y divide-white/5">
+                    {commentsList.map(c => (
+                      <div key={c.id} className="grid grid-cols-12 gap-3 px-5 py-4 items-start hover:bg-white/2 transition-colors">
+                        <div className="col-span-3 min-w-0">
+                          <p className="text-xs font-bold text-white truncate capitalize">{c.user.name || c.user.username}</p>
+                          <p className="text-[10px] text-slate-500 truncate">@{c.user.username}</p>
+                          <p className="text-[9px] text-slate-600 mt-1 font-semibold">{c.date ? new Date(c.date).toLocaleDateString() : ''}</p>
+                        </div>
+                        <div className="col-span-7 flex flex-col gap-1 pr-4">
+                          <p className="text-xs text-slate-300 leading-relaxed font-medium bg-slate-900/20 p-2.5 rounded-lg border border-white/3 italic">
+                            &ldquo;{c.subject}&rdquo;
+                          </p>
+                          <p className="text-[9px] font-bold text-slate-500 mt-1">
+                            Target Game: <span className="text-blue-400 font-extrabold capitalize">{c.game?.game_name || 'Unknown Game'}</span> (ID: {c.game_id})
+                          </p>
+                        </div>
+                        <div className="col-span-2 flex justify-end">
+                          <button
+                            onClick={() => handleDeleteComment(c.id)}
+                            className="text-[10px] font-bold px-2.5 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all cursor-pointer whitespace-nowrap"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {commentTotal > 20 && (
+                <div className="flex items-center justify-between mt-2">
+                  <p className="text-[11px] text-slate-500">
+                    Showing {(commentPage - 1) * 20 + 1} - {Math.min(commentPage * 20, commentTotal)} of {commentTotal} comments
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setCommentPage(prev => Math.max(1, prev - 1))}
+                      disabled={commentPage === 1}
+                      className="px-3.5 py-1.5 rounded-xl border border-white/5 bg-slate-900/40 text-slate-400 hover:text-white text-xs font-bold transition-all disabled:opacity-30 disabled:hover:text-slate-400 cursor-pointer"
+                    >
+                      Previous
+                    </button>
+                    <span className="text-xs text-white font-bold px-2">{commentPage}</span>
+                    <button
+                      onClick={() => setCommentPage(prev => Math.min(Math.ceil(commentTotal / 20), prev + 1))}
+                      disabled={commentPage >= Math.ceil(commentTotal / 20)}
+                      className="px-3.5 py-1.5 rounded-xl border border-white/5 bg-slate-900/40 text-slate-400 hover:text-white text-xs font-bold transition-all disabled:opacity-30 disabled:hover:text-slate-400 cursor-pointer"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─ CATEGORIES CUSTOMIZER TAB ───────────────────────────────────── */}
+          {activeTab === 'categories' && (
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-end gap-4 justify-between">
+                <SectionTitle sub={`${categoriesList.length} categories registered`}>Categories Manager</SectionTitle>
+                <button
+                  onClick={() => handleOpenCategoryModal(null)}
+                  className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-blue-500/20 hover:shadow-blue-500/30 flex items-center gap-1.5 shrink-0 cursor-pointer"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  Add Category
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {categoriesList.map(cat => (
+                  <div key={cat.id} className="glass-panel rounded-2xl border border-white/5 p-4 flex flex-col gap-3.5 group relative hover:border-blue-500/20 transition-all duration-300">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0 capitalize text-sm font-black">
+                        {cat.name.slice(0,2)}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-white capitalize truncate">{cat.name}</p>
+                        <p className="text-[10px] text-slate-500 font-medium truncate">Slug: {cat.slug}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 border-t border-white/5 pt-3 mt-1 justify-end">
+                      <button
+                        onClick={() => handleOpenCategoryModal(cat)}
+                        className="text-[10px] font-bold px-2.5 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all cursor-pointer"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCategory(cat.id)}
+                        className="text-[10px] font-bold px-2.5 py-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Category Modal */}
+              {showCategoryModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
+                  <div className="relative w-full max-w-md glass-panel rounded-3xl border border-white/10 p-6 md:p-8 shadow-2xl flex flex-col gap-5">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-base font-black text-white">{editCategory ? 'Edit Category' : 'Create Category'}</h3>
+                        <p className="text-[10px] text-slate-500">Configure name and url slug.</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowCategoryModal(false)}
+                        className="w-7 h-7 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                      </button>
+                    </div>
+
+                    {categoryError && (
+                      <div className="bg-red-500/10 border border-red-500/25 text-red-400 text-xs font-semibold p-3 rounded-xl">
+                        {categoryError}
+                      </div>
+                    )}
+                    {categorySuccess && (
+                      <div className="bg-green-500/10 border border-green-500/25 text-green-400 text-xs font-semibold p-3 rounded-xl">
+                        {categorySuccess}
+                      </div>
+                    )}
+
+                    <form onSubmit={handleSaveCategory} className="flex flex-col gap-4">
+                      <FormField label="Category Name">
+                        <input
+                          type="text"
+                          required
+                          value={categoryNameInput}
+                          onChange={e => {
+                            setCategoryNameInput(e.target.value);
+                            if (!editCategory) {
+                              setCategorySlugInput(makeSlug(e.target.value));
+                            }
+                          }}
+                          placeholder="e.g. Shooting"
+                          className="glass-input p-3 rounded-xl text-sm"
+                        />
+                      </FormField>
+
+                      <FormField label="URL Slug">
+                        <input
+                          type="text"
+                          required
+                          value={categorySlugInput}
+                          onChange={e => setCategorySlugInput(e.target.value.replace(/\s+/g, '-').toLowerCase())}
+                          placeholder="e.g. shooting"
+                          className="glass-input p-3 rounded-xl text-sm"
+                        />
+                      </FormField>
+
+                      <div className="flex gap-3 mt-2">
+                        <button
+                          type="button"
+                          onClick={() => setShowCategoryModal(false)}
+                          className="flex-1 bg-slate-900 hover:bg-slate-800 border border-white/5 text-slate-400 hover:text-white font-bold py-3 rounded-xl text-xs transition-all cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={categorySaveLoading}
+                          className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 text-white font-bold py-3 rounded-xl text-xs transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          {categorySaveLoading ? (
+                            <><div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />Saving...</>
+                          ) : (
+                            editCategory ? 'Save Changes' : 'Create Category'
+                          )}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ─ SYSTEM MAINTENANCE TAB ──────────────────────────────────────── */}
+          {activeTab === 'maintenance' && (
+            <div className="flex flex-col gap-6 max-w-3xl">
+              <SectionTitle sub="Audit external embedding endpoints and clean server caches">System Maintenance</SectionTitle>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="glass-panel rounded-2xl p-5 border border-white/5 flex flex-col gap-1">
+                  <p className="text-2xl font-black text-white">{checkedCount} / {totalToCheck}</p>
+                  <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Checked Games</p>
+                </div>
+                <div className="glass-panel rounded-2xl p-5 border border-red-500/10 flex flex-col gap-1">
+                  <p className="text-2xl font-black text-red-400">{blockedCount}</p>
+                  <p className="text-[10px] text-red-500/70 font-semibold uppercase tracking-wider">Blocked & Disabled</p>
+                </div>
+                <div className="glass-panel rounded-2xl p-5 border border-green-500/10 flex flex-col gap-1">
+                  <p className="text-2xl font-black text-green-400">
+                    {checkedCount > 0 ? `${Math.round(((checkedCount - blockedCount) / checkedCount) * 100)}%` : '0%'}
+                  </p>
+                  <p className="text-[10px] text-green-500/70 font-semibold uppercase tracking-wider">Success Rate</p>
+                </div>
+              </div>
+
+              <div className="glass-panel rounded-2xl border border-white/5 p-5 flex flex-col gap-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black text-white">Embed Link audit crawler</h3>
+                    <p className="text-xs text-slate-500">Scan play URLs of active games, detect sandboxed blocks or network fails and resolve automatically.</p>
+                  </div>
+                </div>
+
+                {isChecking && (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex justify-between text-xs font-semibold">
+                      <span className="text-slate-400">Scanning in progress...</span>
+                      <span className="text-blue-400">{checkProgress}%</span>
+                    </div>
+                    <div className="w-full bg-slate-950/40 rounded-full h-3 border border-white/5 overflow-hidden">
+                      <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-full rounded-full transition-all duration-300" style={{ width: `${checkProgress}%` }} />
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleStartLinkCheck}
+                    disabled={isChecking}
+                    className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-xs transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    {isChecking ? (
+                      <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Scanning Database...</>
+                    ) : (
+                      'Start Embed Link Check'
+                    )}
+                  </button>
+                  {isChecking && (
+                    <button
+                      onClick={() => setIsChecking(false)}
+                      className="bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-bold px-5 rounded-xl text-xs transition-all cursor-pointer"
+                    >
+                      Stop Scan
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Crawl Logs Terminal */}
+              <div className="glass-panel rounded-2xl border border-white/5 p-5 flex flex-col gap-3">
+                <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Real-time Crawl Console Logs</p>
+                  <button
+                    onClick={() => setCheckLogs([])}
+                    className="text-[10px] text-slate-500 hover:text-slate-300 font-semibold cursor-pointer"
+                  >
+                    Clear Logs
+                  </button>
+                </div>
+                <div className="h-60 rounded-xl bg-slate-950/70 p-4 border border-white/5 overflow-y-auto font-mono text-[11px] leading-relaxed flex flex-col gap-1.5 scrollbar-thin">
+                  {checkLogs.length === 0 ? (
+                    <p className="text-slate-600 italic">Terminal idle. Waiting for scan run...</p>
+                  ) : (
+                    checkLogs.map((log, idx) => {
+                      const colorMap = {
+                        success: 'text-green-400',
+                        error: 'text-red-400',
+                        warn: 'text-amber-400',
+                        info: 'text-blue-400'
+                      };
+                      return (
+                        <p key={idx} className={colorMap[log.type] || 'text-slate-300'}>
+                          {log.text}
+                        </p>
+                      );
+                    })
+                  )}
                 </div>
               </div>
             </div>
