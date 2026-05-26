@@ -279,6 +279,7 @@ export default function AdminDashboard() {
         site_name: config.site_name, site_title: config.site_title,
         site_desc: config.site_desc, site_keywords: config.site_keywords,
         site_color: config.site_color, profile_tagline: config.profile_tagline,
+        gamepix_sid: config.gamepix_sid,
       }).eq('id', config.id || 1);
       if (error) throw error;
       setConfigMsg('success');
@@ -1273,6 +1274,10 @@ export default function AdminDashboard() {
                     <input type="color" value={config.site_color} onChange={e => setConfig({ ...config, site_color: e.target.value })} className="h-11 w-14 rounded-xl cursor-pointer bg-transparent border border-white/10 p-0.5" />
                     <input type="text" value={config.site_color} onChange={e => setConfig({ ...config, site_color: e.target.value })} placeholder="#1583f9" className="glass-input p-3 rounded-xl text-sm flex-1" />
                   </div>
+                </FormField>
+
+                <FormField label="GamePix Partner SID">
+                  <input type="text" value={config.gamepix_sid || ''} onChange={e => setConfig({ ...config, gamepix_sid: e.target.value })} placeholder="10605" className="glass-input p-3 rounded-xl text-sm" />
                 </FormField>
 
                 <button type="submit" disabled={saving} className="mt-2 w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-sm transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer">
